@@ -1,364 +1,213 @@
-<!--
-Projeto: Landing Page - Painel de Projetos Escolares
-Instituição: Centro de Ensino Fundamental Buriti Vermelho
-Arquivo: index.html (arquivo único com CSS e JS embutidos para facilitar testes locais)
-
-O conteúdo abaixo contém:
-- Wireframe textual
-- Estrutura de pastas sugerida
-- Checklist de entregáveis para alunos
-- Código completo de uma landing page responsiva, acessível e funcional em HTML/CSS/JS
-  * Carregamento de projetos a partir de array local
-  * Exemplo de integração opcional com Fetch API (async/await) comentado
-  * Filtros por categoria, modal de detalhes e acessibilidade básica
-
-Instruções rápidas:
-1. Salve este arquivo como index.html dentro da raiz do projeto.
-2. Crie a pasta /assets/img para imagens reais (ou deixe as imagens placeholders).
-3. Para deploy no GitHub Pages: crie um repositório, faça commit e ative Pages em Settings -> Pages -> branch main / docs (ou root).
-4. Para deploy no Azure Estudantil: faça build (se necessário) e siga tutorial Azure Static Web Apps ou App Service (use a conta estudantil).
-
--->
-
-<!doctype html>
-<html lang="pt-BR">
+<!DOCTYPE html>
+<html lang="pt-br">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Painel de Projetos - CEF Buriti Vermelho</title>
-  <meta name="description" content="Painel de Projetos Escolares do Centro de Ensino Fundamental Buriti Vermelho - veja projetos, categorias e resultados." />
-  <link rel="icon" href="data:;base64,iVBORw0KGgo="> <!-- Fallback minimal -->
-  <style>
-    /* Reset simples */
-    :root{
-      --blue:#1E3A8A;
-      --green:#16A34A;
-      --muted:#6B7280;
-      --bg:#FFFFFF;
-      --card:#F8FAFC;
-      --radius:14px;
-      --maxw:1100px;
-      --gap:1rem;
-      font-family: Inter, Roboto, system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{margin:0;background:var(--bg);color:#111;line-height:1.45}
-    .container{max-width:var(--maxw);margin:0 auto;padding:1rem}
-
-    /* Skip link */
-    .skip-link{position:absolute;left:-999px;top:auto;width:1px;height:1px;overflow:hidden}
-    .skip-link:focus{left:1rem;top:1rem;width:auto;height:auto;padding:.5rem;background:#000;color:#fff;z-index:100}
-
-    header{background:linear-gradient(90deg,var(--blue),#2b4bb0);color:#fff;padding:.75rem 0}
-    .header-inner{display:flex;align-items:center;justify-content:space-between;gap:1rem}
-    .logo{display:flex;align-items:center;gap:.5rem}
-    .logo img{width:48px;height:48px;border-radius:8px;object-fit:cover}
-    nav a{color:rgba(255,255,255,.95);text-decoration:none;margin-left:1rem}
-    .cta{background:var(--green);padding:.5rem .8rem;border-radius:8px;color:#fff;text-decoration:none;margin-left:1rem}
-
-    /* Hero */
-    .hero{padding:2.5rem 0;display:grid;grid-template-columns:1fr;gap:1rem;align-items:center}
-    .hero-inner{display:flex;flex-direction:column;gap:.75rem}
-    h1{font-size:clamp(1.6rem,3.6vw,2.4rem);margin:0}
-    .subtitle{color:var(--muted)}
-    .hero-ctas{display:flex;gap:.5rem;flex-wrap:wrap}
-
-    /* Cards */
-    .projects-grid{display:grid;grid-template-columns:repeat(1,1fr);gap:1rem;margin-top:1rem}
-    .card{background:var(--card);padding:1rem;border-radius:12px;box-shadow:0 4px 12px rgba(16,24,40,.06);display:flex;gap:1rem}
-    .card img{width:120px;height:80px;object-fit:cover;border-radius:8px}
-    .card h3{margin:.2rem 0}
-    .tags{display:flex;gap:.5rem;flex-wrap:wrap}
-    .tag{background:#e6eefc;color:var(--blue);padding:.25rem .5rem;border-radius:999px;font-size:.85rem}
-
-    /* Filters */
-    .filters{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1rem}
-    .filter-btn{background:#fff;border:1px solid #e6e6e6;padding:.4rem .6rem;border-radius:8px;cursor:pointer}
-    .filter-btn[aria-pressed="true"]{border-color:var(--blue);box-shadow:0 2px 8px rgba(30,58,138,.12)}
-
-    /* Modal */
-    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(2,6,23,.5);padding:1rem}
-    .modal[open]{display:flex}
-    .modal-dialog{background:#fff;border-radius:12px;max-width:720px;width:100%;padding:1rem}
-
-    /* Metrics */
-    .metrics{display:flex;gap:1rem;flex-wrap:wrap;margin-top:1rem}
-    .metric{background:linear-gradient(180deg,#fff,#f7fbff);padding:1rem;border-radius:12px;flex:1;min-width:140px;text-align:center}
-
-    footer{padding:1rem 0;margin-top:2rem;border-top:1px solid #eee}
-
-    /* Responsiveness */
-    @media(min-width:700px){
-      .hero{grid-template-columns:1fr 380px}
-      .projects-grid{grid-template-columns:repeat(2,1fr)}
-    }
-    @media(min-width:1000px){
-      .projects-grid{grid-template-columns:repeat(3,1fr)}
-    }
-
-    /* small niceties */
-    button{font:inherit}
-    .visually-hidden{position:absolute!important;height:1px;width:1px;overflow:hidden;clip:rect(1px,1px,1px,1px);white-space:nowrap}
-  </style>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escola Futuro</title>
+    <style></style>
 </head>
+
 <body>
-  <a class="skip-link" href="#main">Pular para o conteúdo</a>
-  <header role="banner">
-    <div class="container header-inner">
-      <div class="logo">
-        <img src="assets/img/logo-placeholder.png" alt="Logotipo CEF Buriti Vermelho" />
-        <div>
-          <strong>CEF Buriti Vermelho</strong>
-          <div style="font-size:.85rem;color:rgba(255,255,255,.9)">Painel de Projetos Escolares</div>
-        </div>
-      </div>
-      <nav aria-label="Navegação principal">
-        <a href="#home">Início</a>
-        <a href="#projetos">Projetos</a>
-        <a href="#sobre">Sobre</a>
-        <a href="#contato">Contato</a>
-        <a class="cta" href="#projetos">Ver Projetos</a>
-      </nav>
-    </div>
-  </header>
 
-  <main id="main">
-    <section id="home" class="hero">
-      <div class="container hero-inner">
-        <h1>Painel de Projetos Escolares</h1>
-        <p class="subtitle">Conheça as iniciativas que transformam o aprendizado no Centro de Ensino Fundamental Buriti Vermelho.</p>
-        <div class="hero-ctas">
-          <a class="cta" href="#projetos">Acessar Projetos</a>
-          <a href="#sobre" class="filter-btn">Saiba Mais</a>
+    <!-- SEÇÃO HERO -->
+    <section class="hero" id="inicio">
+        <div class="hero-title">
+            <h1>Transforme o <span>futuro</span> dos seus Filhos</h1>
         </div>
 
-        <div aria-hidden="false" style="margin-top:1rem">
-          <strong>Filtros Rápidos:</strong>
-          <div class="filters" role="toolbar" aria-label="Filtros de categoria">
-            <button class="filter-btn" data-filter="all" aria-pressed="true">Todos</button>
-            <button class="filter-btn" data-filter="ciencias">Ciências</button>
-            <button class="filter-btn" data-filter="sustentabilidade">Sustentabilidade</button>
-            <button class="filter-btn" data-filter="leitura">Leitura</button>
-            <button class="filter-btn" data-filter="tecnologia">Tecnologia</button>
-            <button class="filter-btn" data-filter="artes">Artes</button>
-          </div>
+        <div class="hero-text">
+            <p>
+                Uma educação completa que prepara seu filho para os desafios do mundo moderno,
+                combinando excelência acadêmica com desenvolvimento integral.
+            </p>
         </div>
 
-      </div>
-      <div class="container" aria-hidden="true">
-        <!-- Espaço para imagem ou destaque visual -->
-        <img src="assets/img/hero-placeholder.jpg" alt="Alunos em atividade pedagógica" style="width:100%;border-radius:12px;object-fit:cover;max-height:320px" />
-      </div>
+        <div class="hero-image">
+            <img src="./assets/hero-school.jpg" alt="Crianças estudando">
+        </div>
+
+        <div class="hero-buttons">
+            <button type="button">Agendar Visita</button>
+            <button type="button">Conheça Mais</button>
+        </div>
     </section>
 
-    <section id="projetos" class="container" aria-labelledby="projetos-title">
-      <h2 id="projetos-title">Projetos em Destaque</h2>
-      <p class="subtitle">Explore projetos desenvolvidos por turmas do CEF Buriti Vermelho.</p>
-
-      <div id="projectsGrid" class="projects-grid" role="list">
-        <!-- Cards serão injetados via JS -->
-      </div>
-
-      <div style="margin-top:1rem;">
-        <button id="loadMore" class="filter-btn">Carregar mais</button>
-      </div>
-
-      <div class="metrics" aria-hidden="false">
-        <div class="metric">
-          <div style="font-size:1.5rem;font-weight:700" id="metricProjects">0</div>
-          <div class="muted">Projetos cadastrados</div>
+    <!-- SEÇÃO MOTIVOS -->
+    <section class="motivos" id="motivos">
+        <div class="motivos-header">
+            <h2>Por que Escolher Nossa Escola?</h2>
+            <p>Oferecemos uma educação completa que vai além da sala de aula.</p>
         </div>
-        <div class="metric">
-          <div style="font-size:1.5rem;font-weight:700" id="metricStudents">0</div>
-          <div class="muted">Alunos envolvidos</div>
-        </div>
-        <div class="metric">
-          <div style="font-size:1.5rem;font-weight:700" id="metricTeachers">0</div>
-          <div class="muted">Professores participantes</div>
-        </div>
-      </div>
-    </section>
 
-    <section id="sobre" class="container" aria-labelledby="sobre-title" style="margin-top:2rem">
-      <h2 id="sobre-title">Sobre o Painel</h2>
-      <p>O Painel organiza e divulga ações pedagógicas realizadas pela escola — por área de conhecimento, por ano e por turma. Pode ser usado para prestação de contas, inspiração e arquivo histórico.</p>
-    </section>
-
-    <section id="depoimentos" class="container" style="margin-top:2rem">
-      <h2>Depoimentos</h2>
-      <div style="display:grid;grid-template-columns:repeat(1,1fr);gap:1rem">
-        <blockquote style="background:#fff;padding:1rem;border-radius:8px">"Participar do projeto me ajudou a entender a importância da água" — <strong>Aluna, 9º ano</strong></blockquote>
-        <blockquote style="background:#fff;padding:1rem;border-radius:8px">"Observamos maior engajamento em sala" — <strong>Prof.ª Maria</strong></blockquote>
-      </div>
-    </section>
-
-    <section id="contato" class="container" style="margin-top:2rem">
-      <h2>Contato</h2>
-      <p>Centro de Ensino Fundamental Buriti Vermelho<br />Rua Exemplo, 123 — Bairro — Cidade — CEP</p>
-      <p>Email: <a href="mailto:contato@cef-buritivermelho.edu.br">contato@cef-buritivermelho.edu.br</a> | Telefone: (00) 0000-0000</p>
-    </section>
-
-  </main>
-
-  <footer>
-    <div class="container" style="display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap">
-      <div>© <span id="year"></span> CEF Buriti Vermelho — Todos os direitos reservados.</div>
-      <div style="font-size:.9rem;color:var(--muted)">Desenvolvido para fins educacionais — HTML/CSS/JS</div>
-    </div>
-  </footer>
-
-  <!-- Modal de detalhes -->
-  <dialog id="projectModal" class="modal" role="dialog" aria-modal="true">
-    <div class="modal-dialog">
-      <button id="closeModal" aria-label="Fechar">Fechar</button>
-      <h3 id="modalTitle">Título do Projeto</h3>
-      <p id="modalDesc">Descrição completa do projeto.</p>
-      <p id="modalMeta"></p>
-    </div>
-  </dialog>
-
-  <script>
-    // Dados locais iniciais (fallback se API não estiver disponível)
-    const localProjects = [
-      {
-        id:1,
-        title:'Caminho da Água',
-        description:'Jogo educativo que ensina o ciclo da água através de atividades práticas e digitais.',
-        category:'sustentabilidade',
-        students:45,
-        teachers:2,
-        img:'assets/img/caminho-da-agua.jpg'
-      },
-      {
-        id:2,
-        title:'Circuito de Ciências',
-        description:'Feira de experimentos de ciências com participação das turmas do 6º ao 9º ano.',
-        category:'ciencias',
-        students:120,
-        teachers:6,
-        img:'assets/img/circuito-ciencias.jpg'
-      },
-      {
-        id:3,
-        title:'Leitores do Futuro',
-        description:'Projeto de incentivo à leitura com contações de histórias e clube do livro.',
-        category:'leitura',
-        students:80,
-        teachers:3,
-        img:'assets/img/leitura.jpg'
-      },
-      {
-        id:4,
-        title:'Horta Escolar Sustentável',
-        description:'Criação e manutenção de horta com práticas de compostagem e reutilização de água.',
-        category:'sustentabilidade',
-        students:36,
-        teachers:2,
-        img:'assets/img/horta.jpg'
-      }
-    ];
-
-    // Estado
-    let projects = [];
-    let shownCount = 3; // quantos cards mostrar inicialmente
-
-    document.getElementById('year').textContent = new Date().getFullYear();
-
-    // Função de renderização de cards
-    function renderProjects(list){
-      const grid = document.getElementById('projectsGrid');
-      grid.innerHTML = '';
-      const toShow = list.slice(0, shownCount);
-      toShow.forEach(p=>{
-        const card = document.createElement('article');
-        card.className = 'card';
-        card.setAttribute('role','listitem');
-        card.innerHTML = `
-          <img src="${p.img}" alt="Imagem do projeto ${p.title}" onerror="this.src='assets/img/project-placeholder.png'" />
-          <div>
-            <h3>${p.title}</h3>
-            <p class="muted">${p.description}</p>
-            <div class="tags"><span class="tag">${p.category}</span></div>
-            <div style="margin-top:.6rem">
-              <button class="filter-btn" data-id="${p.id}" aria-haspopup="dialog">Ver mais</button>
+        <div class="card-list">
+            <div class="card">
+                <img src="./assets/icon-education.jpg" alt="">
+                <h3>Educação de Excelência</h3>
+                <p>Metodologia moderna que desenvolve o pensamento crítico e a criatividade de cada aluno.</p>
             </div>
-          </div>
-        `;
-        grid.appendChild(card);
-      });
 
-      // atualiza métricas
-      document.getElementById('metricProjects').textContent = projects.length;
-      document.getElementById('metricStudents').textContent = projects.reduce((s,p)=>s+p.students,0);
-      document.getElementById('metricTeachers').textContent = projects.reduce((s,p)=>s+p.teachers,0);
+            <div class="card">
+                <img src="./assets/icon-community.jpg" alt="">
+                <h3>Apoio Individual</h3>
+                <p>Acompanhamento constante que respeita o ritmo e necessidades de cada estudante.</p>
+            </div>
 
-      // adiciona listeners de ver mais
-      document.querySelectorAll('[data-id]').forEach(btn=>{
-        btn.addEventListener('click',()=>{
-          const id = Number(btn.dataset.id);
-          openModal(projects.find(x=>x.id===id));
-        });
-      });
-    }
+            <div class="card">
+                <img src="./assets/icon-excellence.jpg" alt="">
+                <h3>Ambiente Seguro</h3>
+                <p>Espaço acolhedor e seguro para garantir o bem-estar dos alunos.</p>
+            </div>
+        </div>
+    </section>
 
-    // Modal
-    const modal = document.getElementById('projectModal');
-    function openModal(project){
-      if(!project)return;
-      document.getElementById('modalTitle').textContent = project.title;
-      document.getElementById('modalDesc').textContent = project.description;
-      document.getElementById('modalMeta').textContent = `Categoria: ${project.category} — Alunos: ${project.students} — Professores: ${project.teachers}`;
-      modal.showModal();
-    }
-    document.getElementById('closeModal').addEventListener('click',()=>modal.close());
+    <!-- SEÇÃO HISTÓRIA -->
+    <section class="historia" id="historia">
+        <div class="historia-header">
+            <h1>Mais de 30 Anos Formando <span>Cidadãos</span></h1>
+        </div>
 
-    // Filtros
-    document.querySelectorAll('.filters .filter-btn').forEach(btn=>{
-      btn.addEventListener('click',()=>{
-        document.querySelectorAll('.filters .filter-btn').forEach(b=>b.setAttribute('aria-pressed','false'));
-        btn.setAttribute('aria-pressed','true');
-        const filter = btn.dataset.filter;
-        if(filter === 'all' || !filter){ renderProjects(projects); return; }
-        const filtered = projects.filter(p=>p.category === filter);
-        renderProjects(filtered);
-      });
-    });
+        <div class="historia-info">
+            <div class="info-item">
+                <div class="icone"><img src="svg" alt=""></div>
+                <p></p>
+            </div>
+            <div class="info-item">
+                <div class="icone"><img src="svg" alt=""></div>
+                <p></p>
+            </div>
+            <div class="info-item">
+                <div class="icone"><img src="svg" alt=""></div>
+                <p></p>
+            </div>
+            <div class="info-item">
+                <div class="icone"><img src="svg" alt=""></div>
+                <p></p>
+            </div>
+            <div class="info-item">
+                <div class="icone"><img src="svg" alt=""></div>
+                <p></p>
+            </div>
+            <div class="info-item">
+                <div class="icone"><img src="svg" alt=""></div>
+                <p></p>
+            </div>
+        </div>
 
-    // Carregar mais
-    document.getElementById('loadMore').addEventListener('click',()=>{
-      shownCount += 3; renderProjects(projects);
-    });
+        <div class="historia-cards">
+            <div class="hist-card">
+                <h2>30+</h2>
+                <p>Anos de história</p>
+            </div>
+            <div class="hist-card">
+                <h2>5000+</h2>
+                <p>Alunos formados</p>
+            </div>
+            <div class="hist-card">
+                <h2>100%</h2>
+                <p>Compromisso com o ensino</p>
+            </div>
+            <div class="hist-card">
+                <h2>Excelência</h2>
+                <p>Reconhecida na região</p>
+            </div>
+        </div>
+    </section>
 
-    // Carregamento inicial: tentar buscar API, se falhar, usar localProjects
-    async function loadProjects(){
-      // Exemplo de fetch opcional (descomente e adapte se houver API)
-      /*
-      try{
-        const res = await fetch('https://sua-api/projetos');
-        if(!res.ok) throw new Error('Falha na API');
-        const data = await res.json();
-        projects = data;
-      }catch(err){
-        console.warn('API indisponível, usando dados locais', err);
-        projects = localProjects;
-      }
-      */
+    <!-- SEÇÃO DEPOIMENTOS -->
+    <section class="depoimentos" id="depoimentos">
+        <div class="depoimentos-header">
+            <h1>O que dizem as famílias</h1>
+            <p>Depoimentos de quem confia</p>
+        </div>
 
-      // Uso padrão: dados locais (funcionalidade local prioritária)
-      projects = localProjects;
-      renderProjects(projects);
-    }
+        <div class="depoimento">
+            <div class="svg"></div>
+            <p>
+                "A melhor decisão que tomamos foi matricular nosso filho nesta escola.
+                O desenvolvimento dele tem sido incrível, tanto academicamente quanto pessoalmente."
+            </p>
+            <h2>Maria Silva</h2>
+            <p>Mãe do aluno do 5º ano</p>
+        </div>
 
-    // Inicializa
-    loadProjects();
+        <div class="depoimento">
+            <div class="svg"></div>
+            <p>
+                "A escola tem profissionais incríveis e uma estrutura acolhedora.
+                Meu filho evoluiu muito desde que entrou."
+            </p>
+            <h2>João Santos</h2>
+            <p>Pai do aluno do 3º ano</p>
+        </div>
 
-    // A11y: fechar modal com ESC
-    window.addEventListener('keydown', (e)=>{
-      if(e.key === 'Escape' && modal.open) modal.close();
-    });
+        <div class="depoimento">
+            <div class="svg"></div>
+            <p>
+                "Ambiente seguro, ensino forte e muito carinho com as crianças.
+                Recomendo demais!"
+            </p>
+            <h2>Ana Costa</h2>
+            <p>Mãe da aluna do 2º ano</p>
+        </div>
+    </section>
 
-  </script>
+    <!-- SEÇÃO CHAMADA FINAL -->
+    <section class="cta-final">
+        <h1>Faça Parte da Nossa Família</h1>
+        <p>
+            Venha conhecer nossa estrutura e descobrir como podemos contribuir para o desenvolvimento do seu filho.
+            Agende uma visita hoje mesmo!
+        </p>
+        <button type="button">Agendar Visita</button>
+        <button type="button">Entrar em Contato</button>
+    </section>
+
+</body>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="footer-container">
+
+        <div class="footer-about">
+            <h2>Escola Futuro</h2>
+            <p>Formando cidadãos preparados para os desafios do amanhã.</p>
+        </div>
+
+        <div class="footer-links">
+            <h3>Links Rápidos</h3>
+            <ul>
+                <li><a href="#inicio">Início</a></li>
+                <li><a href="#motivos">Por que escolher</a></li>
+                <li><a href="#historia">Nossa história</a></li>
+                <li><a href="#contato">Contato</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-contact" id="contato">
+            <h3>Contato</h3>
+            <p>📍 Rua Exemplo, 123 - Centro</p>
+            <p>📞 (00) 1234-5678</p>
+            <p>📧 contato@escolafuturo.com</p>
+        </div>
+
+        <div class="footer-social">
+            <h3>Siga-nos</h3>
+            <div class="icons">
+                <a href="#"><img src="icons/facebook.svg" alt="Facebook"></a>
+                <a href="#"><img src="icons/instagram.svg" alt="Instagram"></a>
+                <a href="#"><img src="icons/youtube.svg" alt="YouTube"></a>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer-copy">
+        <p>© 2025 Escola Futuro - Todos os direitos reservados.</p>
+    </div>
+</footer>
+
+</html>
 
   <!--
   README / Estrutura de Pastas Sugerida:
