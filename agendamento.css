@@ -1,0 +1,38 @@
+:root {
+    --bg-color: #f8faff;
+    --title-color: #2d3748;
+    --text-color: #64748b;
+    --bnt-color: #5a8dee;
+    --bnt-border-color: #e2e8f0;
+    --bnt-border-color-2: #cbd5e0;
+}
+
+* {
+    box-sizing: border-box;
+    font-family: Inter, sans-serif;
+    margin: 0px;
+    padding: 0px;
+}
+
+header {
+    text-align: center;
+    padding: 30px;
+}
+
+header h1 {
+    font-size: 40px;
+    padding-bottom: 10px;
+    color: var(--title-color);
+}
+
+header p {
+    font-size: 18px;
+    color: var(--text-color);
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: var(--bg-color);
+}
