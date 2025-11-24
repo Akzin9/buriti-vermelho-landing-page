@@ -52,3 +52,10 @@
 //         });
 //     });
 // });
+
+
+let button = document.getElementById("agendVisit");
+
+button.addEventListener("click", () => {
+    window.open("./pages/agendamento.html", "href");
+});
