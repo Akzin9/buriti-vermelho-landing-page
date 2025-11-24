@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagina de Agendamento - Buriti Vermelho</title>
+    <link rel="stylesheet" href="../assets/css/agendamento/agendamento.css">
+</head>
+<body>
+    <div id="preencher">
+        <header>
+            <h1>Agenda sua Visita</h1>
+            <p>Venha conhecer nossa estrutura e descobrir como podemos contribuir para o desenvolvimento do seu filho <br> Agende uma visita hoje mesmo!</p>
+        </header>
+        <main>
+            <section id="container">
+                <div id="form-container">
+
+                    <form action="">
+
+                        <div class="formsAreas">
+
+                            <strong><label for="name">Cliente</label></strong><br>
+                            <input type="text" id="name" class="forms" placeholder="Digite seu Nome Completo" required><br><br>
+
+                            <strong><label for="email">E-mail</label></strong><br>
+                            <input type="email" id="email" class="forms" placeholder="seuemail@gmail.com" required><br><br>
+
+                            <strong><label for="tel">Telefone</label></strong><br>
+                            <input type="tel" id="tel" class="forms" maxlength="16" minlength="11" placeholder="(99) 9 1234-5678" required><br><br>
+                        </div> 
+
+                        <div class="formsAreas">
+                            <strong><label for="data">Data para o Atendimento</label></strong><br>
+                            <input type="date" name="data" id="data" class="forms" required><br><br>
+                        </div>
+
+                        <div id="horarios" class="formsAreas">
+
+                            <span><strong>Horários</strong><br><br></span>
+
+                            <p>Manhã</p>
+
+                            <li>
+                                <ul>
+                                    <button type="submit">09:00</button>
+                                    <button type="submit">10:00</button>
+                                    <button type="submit">11:00</button>
+                                    <button type="submit">12:00</button>
+                                </ul>
+                            </li><br>
+
+                            <p>Tarde</p>
+
+                            <li>
+                                <ul>
+                                    <button type="submit">14:00</button>
+                                    <button type="submit">15:00</button>
+                                    <button type="submit">16:00</button>
+                                    <button type="submit">17:00</button>
+                                </ul>
+                            </li><br>
+
+                        </div>
+
+                        <button type="submit" id="agendarBtt">CONFIRMAR AGENDAMENTO</button>
+
+                    </form>
+
+                </div>
+
+            </section>
+
+            <div id="agendamentos-container">
+                
+                <div>
+                    <span>Agendamentos</span>
+                    <img id="icone-intuitivo">
+                </div>
+            </div>
+            <div id="agendamentos-area">
+                <h3>Seus Agendamentos</h3>
+                <!-- parte antes de logar -->
+
+                <p>Você precisa estar logado para ver seus agendamentos</p>
+                
+                <button id="loginBtt">Logar</button>
+
+                <!-- parte após clicar no botão "Logar" -->
+                <!-- <form action="" id="formLogin">
+
+                    <label for="nomeLogin" class="labelLogin"><strong>Nome</strong></label><br>
+                    <input type="text" id="nomeLogin" placeholder="Digite seu Nome Completo" required>
+                    <br>
+                    <label for="emailLogin" class="labelLogin"><strong>E-mail</strong></label><br>
+                    <input type="email" id="emailLogin" placeholder="seuemail@gmail.com" required>
+                    <br>
+                    <button id="bttLogar">Logar</button>
+
+                </form> -->
+
+                <!-- parte executada após o login -->
+                <!-- <p>Você possui <strong>X</strong> agendamentos.</p>
+
+                <div class="agends">
+
+                    <span id="numberAgend" class="spanBorder borderRS">Agendamento N°: <strong>1</strong></span>
+                    <span id="dataAgend" class="spanBorder">Data: <strong>01/01/2025</strong></span>
+                    <span id="horaAgend" class="spanSemBorder borderRE">Horário: <strong>10:00</strong></span>
+                </div>
+                
+                <button class="deleteBtt">Deletar Agendamento</button> -->
+                
+            </div>
+        </main>
+    </div>
+
+    <!-- Rodapé -->
+    <footer>
+            <p>© 2025 Escola Futuro - Todos os direitos reservados.</p>
+    </footer>
+
+</body>
+</html>
