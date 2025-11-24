@@ -12,4 +12,3 @@ buttonLog1.addEventListener( "click", (event) => {
     
 });
 
-// terminar de deixar o botões minimamente úteis
