@@ -83,7 +83,7 @@ div#agendamentos-container {
     background-color: var(--secundary-color);
     position: absolute;
     margin-top: -35%; 
-    margin-left: 38%;
+    margin-left: 45%;
     padding: 15px;
     border-radius: 15px;
     cursor: pointer;
@@ -171,7 +171,7 @@ div#horarios span {
 }
 
 div#agendamentos-area {
-    display: flex;
+    display: none;
     flex-direction: column;
     align-items: center;
     min-height: 757px;
