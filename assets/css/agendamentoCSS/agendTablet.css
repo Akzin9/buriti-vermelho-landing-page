@@ -35,4 +35,5 @@ body {
     flex-direction: column;
     height: 100vh;
     background-color: var(--bg-color);
+    scroll-behavior: smooth;
 }

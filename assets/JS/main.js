@@ -54,8 +54,22 @@
 // });
 
 
-let button = document.getElementById("agendVisit");
+let buttonAgend = document.querySelectorAll(".agendVisit");
 
-button.addEventListener("click", () => {
-    window.open("./pages/agendamento.html", "href");
+buttonAgend.forEach((elem) => {
+    elem.addEventListener("click", () => {
+        window.open("../../pages/agendamento.html", "href");
+    });
+});
+
+let contactButton = document.getElementById("contactBtt");
+
+contactButton.addEventListener("click", () => {
+    window.location.href = "https://akzin9.github.io/buriti-vermelho-landing-page/#contato";
+});
+
+let knowMore = document.getElementById("knowMore");
+
+knowMore.addEventListener("click", () => {
+    window.location.href = "https://akzin9.github.io/buriti-vermelho-landing-page/#historia";
 });

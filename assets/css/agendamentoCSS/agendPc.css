@@ -47,6 +47,7 @@ body {
     flex-direction: column;
     min-height: 100vh;
     background-color: var(--bg-color);
+    scroll-behavior: smooth;
 }
 
 footer {
@@ -82,7 +83,7 @@ div#agendamentos-container {
     background-color: var(--secundary-color);
     position: absolute;
     margin-top: -35%; 
-    margin-left: 38%; /*valor padrão: 45% / valor após a abertura do menu de agendamentos: 38%*/
+    margin-left: 38%;
     padding: 15px;
     border-radius: 15px;
     cursor: pointer;
