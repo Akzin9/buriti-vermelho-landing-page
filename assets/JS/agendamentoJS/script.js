@@ -2,9 +2,7 @@ let buttonLog1 = document.getElementById("loginBtt");
 let areaAgendamentos = document.getElementById("agendamentos-area");
 let agendContainer = document.getElementById("agendamentos-container");
 
-let agendButton = document.getElementById("agendsButton");
-
-agendButton.addEventListener("click", (event) => {
+agendContainer.addEventListener("click", (event) => {
     // adicionar pequena animação ao clicar no botão
     let displayArea = window.getComputedStyle(areaAgendamentos).display;
 
@@ -29,9 +27,10 @@ buttonLog1.addEventListener( "click", (event) => {
 
     let divParte2 = document.getElementById("parte2Log");
 
-    divParte2.style.display = "initial";
+    divParte2.style.display = "flex";
     
 });
 
 // falta fazer a checagem pra validar o login do usuário e mostrar os agendamentos
-// centralizar div de login
+// seleção de horários
+// coletar dados do formulário de agendamento

@@ -285,6 +285,8 @@ button#bttLogar {
 
 div#parte2Log {
     display: none;
+    align-items: center;
+    justify-content: center;
     width: 100%;
 }
 
