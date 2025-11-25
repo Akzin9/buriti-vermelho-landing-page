@@ -58,7 +58,7 @@ let buttonAgend = document.querySelectorAll(".agendVisit");
 
 buttonAgend.forEach((elem) => {
     elem.addEventListener("click", () => {
-        window.open("../../pages/agendamento.html", "href");
+        window.open("https://akzin9.github.io/buriti-vermelho-landing-page/pages/agendamento.html", "href");
     });
 });
 
