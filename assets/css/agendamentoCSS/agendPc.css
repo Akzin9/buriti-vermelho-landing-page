@@ -22,7 +22,7 @@ header {
 }
 
 #titulo {
-    font-size: 3.5rem;
+    font-size: 40px;
     padding-bottom: 10px;
     color: var(--cor-titulos);
 }
@@ -131,6 +131,7 @@ input.forms {
 }
 
 button#agendarBtt {
+    color: white;
     width: 100%;
     padding: 15px;
     border-radius: 8px;
@@ -140,7 +141,7 @@ button#agendarBtt {
     margin-top: 2%;
     font-size: 11pt;
     font-weight: 700;
-    background-color: var(--secundary-color);
+    background-color: var(--cor-primaria);
 }
 
 button#agendarBtt:hover {
@@ -149,19 +150,22 @@ button#agendarBtt:hover {
 }
 
 div#horarios button {
+    background-color: var(--cor-bg);
     padding: 12px;
-    border: none;
+    border: 2px solid var(--cor-bordas);
     border-radius: 8px;
     margin-top: 5px;
     width: 24%;
-    transition: 0.3s ease;
     cursor: pointer;
     font-size: 11pt;
+    transition: background-color 0.3s ease;
 }
-z
+
+
 div#horarios button:hover {
-    /*ajustar cor*/
-    filter: brightness(0.8);
+    color: white;
+    border: none;
+    background-color: var(--cor-primaria);
 }
 
 div#horarios p {
