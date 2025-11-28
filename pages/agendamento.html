@@ -13,8 +13,8 @@
 <body>
     <div id="preencher">
         <header>
-            <h1>Agenda sua Visita</h1>
-            <p>Venha conhecer nossa estrutura e descobrir como podemos contribuir para o desenvolvimento do seu filho <br> Agende uma visita hoje mesmo!</p>
+            <h1 id="titulo">Agenda sua visita</h1>
+            <p id="tit-parag">Venha conhecer nossa estrutura e descobrir como podemos contribuir para o desenvolvimento do seu filho <br> Agende uma visita hoje mesmo!</p>
         </header>
         <main>
             <section id="container">
@@ -25,17 +25,17 @@
                         <div class="formsAreas">
 
                             <strong><label for="name">Cliente</label></strong><br>
-                            <input type="text" id="name" class="forms" placeholder="Digite seu Nome Completo" required><br><br>
+                            <input type="text" id="name" class="forms" placeholder="Ex.: Pablo Antonio" required><br><br>
 
                             <strong><label for="email">E-mail</label></strong><br>
-                            <input type="email" id="email" class="forms" placeholder="seuemail@gmail.com" required><br><br>
+                            <input type="email" id="email" class="forms" placeholder="Ex.: seuemail@gmail.com" required><br><br>
 
                             <strong><label for="tel">Telefone</label></strong><br>
-                            <input type="tel" id="tel" class="forms" maxlength="16" minlength="11" placeholder="(99) 9 1234-5678" required><br><br>
+                            <input type="tel" id="tel" class="forms" maxlength="16" minlength="11" placeholder="Ex.: (99) 99999-9999" required><br><br>
                         </div> 
 
                         <div class="formsAreas">
-                            <strong><label for="data">Data para o Atendimento</label></strong><br>
+                            <strong><label for="data">Data</label></strong><br>
                             <input type="date" name="data" id="data" class="forms" max="9999-12-31" required><br><br>
                         </div>
 
@@ -78,7 +78,7 @@
             <div id="agendamentos-container">
                 
                 <div id="agendsButton">
-                    <span>Agendamentos</span>
+                    <strong><span>Agendamentos</span></strong>
                 </div>
             </div>
             <div id="agendamentos-area">
