@@ -9,12 +9,13 @@
     <link rel="stylesheet" href="../assets/css/agendamentoCSS/agendPc.css">
     <link rel="stylesheet" href="../assets/css/agendamentoCSS/agendTablet.css">
     <link rel="stylesheet" href="../assets/css/agendamentoCSS/agendNotebook.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
 <body>
     <div id="preencher">
         <header>
-            <h1>Agenda sua Visita</h1>
-            <p>Venha conhecer nossa estrutura e descobrir como podemos contribuir para o desenvolvimento do seu filho <br> Agende uma visita hoje mesmo!</p>
+            <h1 id="titulo">Agenda sua <span>visita</span> aqui</h1>
+            <p id="tit-parag">Venha conhecer nossa estrutura e descobrir como podemos contribuir para o desenvolvimento do seu filho <br> Agende uma visita hoje mesmo!</p>
         </header>
         <main>
             <section id="container">
@@ -25,18 +26,18 @@
                         <div class="formsAreas">
 
                             <strong><label for="name">Cliente</label></strong><br>
-                            <input type="text" id="name" class="forms" placeholder="Digite seu Nome Completo" required><br><br>
+                            <input type="text" id="name" class="forms" placeholder="Ex.: Pablo Antonio" required><br><br>
 
                             <strong><label for="email">E-mail</label></strong><br>
-                            <input type="email" id="email" class="forms" placeholder="seuemail@gmail.com" required><br><br>
+                            <input type="email" id="email" class="forms" placeholder="Ex.: seuemail@gmail.com" required><br><br>
 
                             <strong><label for="tel">Telefone</label></strong><br>
-                            <input type="tel" id="tel" class="forms" maxlength="16" minlength="11" placeholder="(99) 9 1234-5678" required><br><br>
+                            <input type="tel" id="tel" class="forms" maxlength="16" minlength="11" placeholder="Ex.: (99) 99999-9999" required><br><br>
                         </div> 
 
                         <div class="formsAreas">
-                            <strong><label for="data">Data para o Atendimento</label></strong><br>
-                            <input type="date" name="data" id="data" class="forms" max="9999-12-31" required><br><br>
+                            <strong><label for="data">Data</label></strong><br>
+                            <input type="date" name="data" id="data" class="forms" max="9999-12-31" required placeholder="dd/mm/aaaa"><br><br>
                         </div>
 
                         <div id="horarios" class="formsAreas">
@@ -47,10 +48,12 @@
 
                             <li>
                                 <ul>
-                                    <button type="submit">09:00</button>
-                                    <button type="submit">10:00</button>
-                                    <button type="submit">11:00</button>
-                                    <button type="submit">12:00</button>
+                                    <button type="button">09:00</button>
+                                    <button type="button">10:00</button>
+                                    <button type="button">11:00</button>
+                                    <button type="button">12:00</button>
+
+
                                 </ul>
                             </li><br>
 
@@ -58,10 +61,10 @@
 
                             <li>
                                 <ul>
-                                    <button type="submit">14:00</button>
-                                    <button type="submit">15:00</button>
-                                    <button type="submit">16:00</button>
-                                    <button type="submit">17:00</button>
+                                    <button type="button">14:00</button>
+                                    <button type="button">15:00</button>
+                                    <button type="button">16:00</button>
+                                    <button type="button">17:00</button>
                                 </ul>
                             </li><br>
 
@@ -78,16 +81,14 @@
             <div id="agendamentos-container">
                 
                 <div id="agendsButton">
-                    <span>Agendamentos</span>
+                    <strong><span>Agendamentos</span></strong>
                 </div>
             </div>
             <div id="agendamentos-area">
-
+                
                 <h3 class="showP1">Seus Agendamentos</h3>
                 <!-- parte antes de logar -->
-
                 <p class="showP1">Você precisa estar logado para ver seus agendamentos</p>
-                
                 <button class="showP1 showBtt1" id="loginBtt">Logar</button>
 
                 <!-- parte após clicar no botão "Logar" -->
@@ -128,5 +129,16 @@
 
 
     <script src="../assets/JS/agendamentoJS/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/pt.js"></script>
+    <script>
+            flatpickr("#data", {
+                locale: "pt",
+                dateFormat: "d/m/Y",
+                minDate: "today",
+                altInput: true,
+                altFormat: "d/m/Y"
+            });
+        </script>
 </body>
 </html>

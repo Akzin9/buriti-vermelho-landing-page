@@ -1,38 +1,43 @@
 :root {
-    --bg-color: #f8faff;
-    --title-color: #2d3748;
-    --text-color: #64748b;
-    --bnt-color: #5a8dee;
-    --bnt-border-color: #e2e8f0;
-    --bnt-border-color-2: #cbd5e0;
-    --secundary-color: #FF9C28;
-    --bg-secundary-color: rgb(241, 241, 241);
-    --border-div: #4177db;
-    --form-bg: #2d5db636;
+    --cor-primaria: #FF9900;
+    --cor-secundaria: #FD1D1D;
+    --cor-titulos: black;
+    --cor-paragrafos: rgb(85, 85, 85);
+    --cor-bg: #fff6f6;
+    --cor-bordas: #f7eded;
+
 }
 
 * {
-    box-sizing: border-box;
-    font-family: Inter, sans-serif;
     margin: 0px;
     padding: 0px;
+    font-family: Inter, sans-serif;
+    box-sizing: border-box;
 }
 
 header {
+    background-color: var(--cor-bg);
     text-align: center;
     padding: 30px;
-    background-color: rgb(241, 241, 241);
 }
 
-header h1 {
+
+#titulo {
     font-size: 40px;
     padding-bottom: 10px;
-    color: var(--title-color);
+    color: var(--cor-titulos);
 }
 
-header p {
-    font-size: 18px;
-    color: var(--text-color);
+header span {
+    background: linear-gradient(90deg, var(--cor-primaria) 0%, var(--cor-secundaria) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+#tit-parag {
+    font-size: 1.1rem;
+    color: var(--cor-paragrafos);
 }
 
 html, body {
@@ -43,17 +48,18 @@ html, body {
 }
 
 body {
+    background-color: var(--cor-bg);
+    color: white;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background-color: var(--bg-color);
     scroll-behavior: smooth;
 }
 
 footer {
-    background-color: var(--bg-secundary-color);
+    background-color: var(--cor-bg);
     text-align: center;
-    color: var(--text-color);
+    color: var(--cor-titulos);
     padding: 1.5%;
 }
 
@@ -65,34 +71,43 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: var(--cor-bg);
 }
 
 section#container {
+    color: black;
+    background: white;
     width: 60%;
     display: flex;
-    background-color: #5a8dee;
     justify-content: center;
     align-items: center;
-    border-radius: 15px;
+    border-radius: 10px;
     padding: 1%;
     margin-top: 3%;
     margin-bottom: 3%;
 }
 
 div#agendamentos-container {
-    background-color: var(--secundary-color);
+    color: white;
+    background-color: var(--cor-primaria);
     position: absolute;
     margin-top: -35%; 
     margin-left: 45%;
-    padding: 15px;
-    border-radius: 15px;
+    padding: 12px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: 0.3s;
-    font-weight: 700;
+    transition: 0.3s ease;
+    font-size: 11pt;
 }
 
 div#agendamentos-container:hover {
-    filter: brightness(0.8);
+    transform: scale(1.05);
+}
+
+div#agendamentos-container.ativo {
+    background-color: white;
+    color: var(--cor-primaria);
+    border: none
 }
 
 div#horarios li {
@@ -105,12 +120,10 @@ div#form-container {
 }
 
 div#form-container form {
-    background-color: var(--form-bg);
-    border: 1px solid var(--border-div);
+    border: none;
     width: 100%;
     height: 100%;
     padding: 40px;
-    border-radius: 15px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -122,52 +135,63 @@ div.formsAreas {
 }
 
 input.forms {
+
+    border: 2px solid var(--cor-bordas);
+    background-color: var(--cor-bg);
     margin-top: 1%;
     width: 100%;
-    padding: 8px;
+    padding: 12px;
     border-radius: 6px;
 }
 
 button#agendarBtt {
-    width: 80%;
-    padding: 10px;
-    border-radius: 15px;
+    color: white;
+    width: 100%;
+    padding: 15px;
+    border-radius: 8px;
     border: none;
     cursor: pointer;
-    transition: 0.3s;
+    transition: 0.3s ease;
     margin-top: 2%;
     font-size: 11pt;
     font-weight: 700;
-    background-color: var(--secundary-color);
+    background-color: var(--cor-primaria);
 }
 
 button#agendarBtt:hover {
-    filter: brightness(0.8);
+    transform: scale(1.02);
 }
 
 div#horarios button {
+    background-color: var(--cor-bg);
     padding: 12px;
-    border: none;
-    border-radius: 15px;
-    margin-top: 1%;
+    border: 2px solid var(--cor-bordas);
+    border-radius: 8px;
+    margin-top: 5px;
     width: 24%;
-    transition: 0.2s;
     cursor: pointer;
-    font-size: 14pt;
+    font-size: 11pt;
+    transition: background-color 0.3s ease;
 }
+
 
 div#horarios button:hover {
-    filter: brightness(0.8);
+    border-color: var(--cor-primaria);
 }
 
+div#horarios button.ativo {
+    color: white;
+    background-color: var(--cor-primaria);
+    border: none
+}
+
+
 div#horarios p {
-    font-weight: 700;
-    font-size: 15pt;
+    font-size: 11pt;
 }
 
 div#horarios span {
-    font-weight: 600;
-    font-size: 17pt;
+    font-size: 15pt;
 }
 
 div#agendamentos-area {
@@ -177,15 +201,17 @@ div#agendamentos-area {
     min-height: 757px;
     margin-left: 2.5%;
     max-width: 35%;
-    background-color: var(--bnt-color);
+    background-color: var(--cor-primaria);
     padding: 40px;
     border-radius: 15px;
     flex: 1;
 }
 
+
 div#agendamentos-area button#loginBtt {
+    color: var(--cor-primaria);
     border: none;
-    background-color: var(--secundary-color);
+    background-color: white;
     padding: 16px;
     border-radius: 15px;
     width: 50%;
@@ -195,6 +221,7 @@ div#agendamentos-area button#loginBtt {
     font-size: 15pt;
     font-weight: 700;
 }
+
 
 div#agendamentos-area button:hover {
     filter: brightness(0.8);
@@ -268,18 +295,22 @@ label.labelLogin {
 input#nomeLogin, input#emailLogin {
     align-self: flex-start;
     width: 100%;
-    border-radius: 5px;
-    padding: 5px;
+    border: 2px solid var(--cor-bordas);
+    background-color: var(--cor-bg);
+    width: 100%;
+    padding: 12px;
+    border-radius: 6px;
 }
 
 button#bttLogar {
+    color: var(--cor-primaria);
     padding: 12px;
     border: none;
     font-size: 12pt;
     cursor: pointer;
     font-weight: 700;
     border-radius: 5px;
-    background-color: var(--secundary-color);
+    background-color: white;
     width: 40%;
 }
 
