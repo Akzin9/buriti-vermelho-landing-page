@@ -20,18 +20,18 @@
             <section id="container">
                 <div id="form-container">
 
-                    <form action="">
+                    <form action="" id="agendarForm">
 
                         <div class="formsAreas">
 
                             <strong><label for="name">Cliente</label></strong><br>
-                            <input type="text" id="name" class="forms" placeholder="Ex.: Pablo Antonio" required><br><br>
+                            <input type="text" id="name" name="nome" class="forms" placeholder="Ex.: Pablo Antonio" required><br><br>
 
                             <strong><label for="email">E-mail</label></strong><br>
-                            <input type="email" id="email" class="forms" placeholder="Ex.: seuemail@gmail.com" required><br><br>
+                            <input type="email" id="email" name="email" class="forms" placeholder="Ex.: seuemail@gmail.com" required><br><br>
 
                             <strong><label for="tel">Telefone</label></strong><br>
-                            <input type="tel" id="tel" class="forms" maxlength="16" minlength="11" placeholder="Ex.: (99) 99999-9999" required><br><br>
+                            <input type="tel" id="tel" name="tel" class="forms" maxlength="16" minlength="11" placeholder="Ex.: (99) 99999-9999" required><br><br>
                         </div> 
 
                         <div class="formsAreas">
@@ -47,10 +47,10 @@
 
                             <li>
                                 <ul>
-                                    <button type="submit">09:00</button>
-                                    <button type="submit">10:00</button>
-                                    <button type="submit">11:00</button>
-                                    <button type="submit">12:00</button>
+                                    <button type="button" class="buttonHour">09:00</button>
+                                    <button type="button" class="buttonHour">10:00</button>
+                                    <button type="button" class="buttonHour">11:00</button>
+                                    <button type="button" class="buttonHour">12:00</button>
                                 </ul>
                             </li><br>
 
@@ -58,10 +58,10 @@
 
                             <li>
                                 <ul>
-                                    <button type="submit">14:00</button>
-                                    <button type="submit">15:00</button>
-                                    <button type="submit">16:00</button>
-                                    <button type="submit">17:00</button>
+                                    <button type="button" class="buttonHour">14:00</button>
+                                    <button type="button" class="buttonHour">15:00</button>
+                                    <button type="button" class="buttonHour">16:00</button>
+                                    <button type="button" class="buttonHour">17:00</button>
                                 </ul>
                             </li><br>
 
@@ -95,12 +95,12 @@
                 <form action="" id="formLogin">
                     
                     <label for="nomeLogin" class="labelLogin"><strong>Nome</strong></label><br>
-                    <input type="text" id="nomeLogin" placeholder="Digite seu Nome Completo" required>
+                    <input type="text" id="nomeLogin" name="nomeLogin" placeholder="Digite seu Nome Completo" required>
                     <br>
                     <label for="emailLogin" class="labelLogin"><strong>E-mail</strong></label><br>
-                    <input type="email" id="emailLogin" placeholder="seuemail@gmail.com" required>
+                    <input type="email" id="emailLogin" name="emailLogin" placeholder="Ex.: seuemail@gmail.com" required>
                     <br>
-                    <button id="bttLogar">Logar</button>
+                    <button id="bttLogar" type="submit">Logar</button>
 
                 </form>
                 </div>

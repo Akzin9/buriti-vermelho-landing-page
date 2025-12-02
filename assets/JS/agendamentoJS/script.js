@@ -31,6 +31,53 @@ buttonLog1.addEventListener( "click", (event) => {
     
 });
 
+// sistema para enviar horário à uma variável
+let buttons = document.querySelectorAll(".buttonHour");
+let horario = null;
+
+buttons.forEach((button) => {
+    button.addEventListener("click", (event) => {
+        horario = button.textContent;
+    });
+});
+
+// formulário de agendamento
+// formulário pega os dados, manda pra um objeto, mandando junto também a variável de horário, mas antes verificando se ela é null e cancelando o envio caso seja null
+let arrayUserData = [];
+let formAgend = document.getElementById("agendarForm");
+
+formAgend.addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    let formData = new FormData(formAgend);
+
+    let newUserData = {};
+
+    formData.forEach( ( value, prop ) => {
+        newUserData[prop] = value;
+    });
+    newUserData.hora = horario;
+    newUserData.email = newUserData.email.toLowerCase();
+
+    arrayUserData.push(newUserData);
+
+    formAgend.reset();
+    arrayUserData.forEach((value) => {
+        console.log(value)
+    })
+});
+
+
+
+
+// formulário de login
+let formLogin = document.getElementById("formLogin");
+// pega os dados do envio do formulário e compara com o conteúdo do objeto que carrega os usuários que é criado após o envio do formulário de agendamento.
+
+formLogin.addEventListener("submit", (event) => {
+
+});
+
 // falta fazer a checagem pra validar o login do usuário e mostrar os agendamentos
 // seleção de horários
 // coletar dados do formulário de agendamento

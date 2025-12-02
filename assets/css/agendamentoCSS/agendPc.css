@@ -63,6 +63,7 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: #ff990041;
 }
 
 section#container {
@@ -93,6 +94,7 @@ div#agendamentos-container {
 
 div#agendamentos-container:hover {
     /*ajustar cor*/
+    transform: scale(1.05);
     filter: brightness(0.8);
 }
 
@@ -121,7 +123,6 @@ div.formsAreas {
 }
 
 input.forms {
-
     border: 2px solid var(--cor-bordas);
     background-color: var(--cor-bg);
     margin-top: 1%;
@@ -183,7 +184,7 @@ div#agendamentos-area {
     min-height: 757px;
     margin-left: 2.5%;
     max-width: 35%;
-    background-color: var(--bnt-color);
+    background-color: white;
     padding: 40px;
     border-radius: 15px;
     flex: 1;
@@ -191,7 +192,7 @@ div#agendamentos-area {
 
 div#agendamentos-area button#loginBtt {
     border: none;
-    background-color: var(--secundary-color);
+    background-color: var(--cor-primaria);
     padding: 16px;
     border-radius: 15px;
     width: 50%;
@@ -200,9 +201,11 @@ div#agendamentos-area button#loginBtt {
     transition: 0.3s;
     font-size: 15pt;
     font-weight: 700;
+    color: white;
 }
 
-div#agendamentos-area button:hover {
+div#agendamentos-area button#loginBtt:hover {
+    transform: scale(1.05);
     filter: brightness(0.8);
 }
 
@@ -269,13 +272,16 @@ form#formLogin {
 
 label.labelLogin {
     align-self: flex-start;
+    color: black;
 }
 
 input#nomeLogin, input#emailLogin {
     align-self: flex-start;
     width: 100%;
     border-radius: 5px;
-    padding: 5px;
+    padding: 10px;
+    border: 2px solid var(--cor-bordas);
+    background-color: var(--cor-bg);
 }
 
 button#bttLogar {
@@ -285,8 +291,15 @@ button#bttLogar {
     cursor: pointer;
     font-weight: 700;
     border-radius: 5px;
-    background-color: var(--secundary-color);
+    background-color: var(--cor-primaria);
     width: 40%;
+    color: white;
+    transition: 0.3s;
+}
+
+button#bttLogar:hover {
+    transform: scale(1.05);
+    filter: brightness(0.8);
 }
 
 div#parte2Log {
