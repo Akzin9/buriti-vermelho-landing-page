@@ -19,6 +19,12 @@ agendContainer.addEventListener("click", (event) => {
     };
 });
 
+const agendamento = document.getElementById("agendamentos-container");
+
+agendamento.addEventListener("click", () => {
+    agendamento.classList.toggle("ativo");
+});
+
 buttonLog1.addEventListener( "click", (event) => {  
 
     let show = document.getElementsByClassName("showBtt1")[0];
@@ -97,6 +103,19 @@ let formLogin = document.getElementById("formLogin");
 formLogin.addEventListener("submit", (event) => {
 
 });
+
+const botoes = document.querySelectorAll("#horarios button");
+
+botoes.forEach(btn => {
+    btn.addEventListener("click", () => {
+        // remove ativo dos outros botões
+        botoes.forEach(b => b.classList.remove("ativo"));
+
+        // adiciona ativo no clicado
+        btn.classList.add("ativo");
+    });
+});
+
 
 // falta fazer a checagem pra validar o login do usuário e mostrar os agendamentos
 // seleção de horários
