@@ -31,6 +31,18 @@ buttonLog1.addEventListener( "click", (event) => {
     
 });
 
+const botoes = document.querySelectorAll("#horarios button");
+
+botoes.forEach(btn => {
+    btn.addEventListener("click", () => {
+        // remove ativo dos outros botões
+        botoes.forEach(b => b.classList.remove("ativo"));
+
+        // adiciona ativo no clicado
+        btn.classList.add("ativo");
+    });
+});
+
 // sistema para enviar horário à uma variável
 let buttons = document.querySelectorAll(".buttonHour");
 let horario = null;
@@ -56,15 +68,23 @@ formAgend.addEventListener("submit", function(event) {
     formData.forEach( ( value, prop ) => {
         newUserData[prop] = value;
     });
+
+    if (horario == null) {
+        alert("Por favor, selecione um horário!");
+        return;
+    };
+
     newUserData.hora = horario;
     newUserData.email = newUserData.email.toLowerCase();
 
     arrayUserData.push(newUserData);
 
     formAgend.reset();
-    arrayUserData.forEach((value) => {
-        console.log(value)
-    })
+    horario = null;
+
+    // arrayUserData.forEach((value) => {
+    //     console.log(value)
+    // })
 });
 
 
