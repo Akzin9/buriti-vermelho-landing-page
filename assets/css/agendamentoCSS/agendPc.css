@@ -219,7 +219,7 @@ div#agendamentos-area button#loginBtt {
     transition: 0.3s;
     font-size: 15pt;
     font-weight: 700;
-    color: white;
+    color: var((--cor-primaria));
 }
 
 
@@ -238,22 +238,20 @@ div.agends {
     text-align: center;
 }
 
-div.agends span.spanBorder {
-    border-right: 1px solid black;
-}
-
 span.borderRS {
     border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
+    border-top-right-radius: 5px;
 }
 
 span.borderRE {
-    border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
 }
 
 div.agends span {
     padding: 5px;
+    color: black;
+    border: 1px solid rgba(0, 0, 0, 0.507);
     width: 100%;
     background-color: var(--bnt-border-color);
 }
@@ -266,7 +264,7 @@ button.deleteBtt {
     font-weight: 500;
     margin-top: 2%;
     color: rgb(233, 233, 233);
-    padding: 12px;
+    padding: 8px;
     transition: 0.3s;
     cursor: pointer;
     align-self: flex-start;
@@ -313,7 +311,7 @@ button#bttLogar {
     border-radius: 5px;
     background-color: white;
     width: 40%;
-    color: white;
+    color: var(--cor-primaria);
     transition: 0.3s;
 }
 

@@ -37,6 +37,7 @@ buttonLog1.addEventListener( "click", (event) => {
     
 });
 
+// mudança na cor do botão de acordo com a condição "ativo"
 const botoes = document.querySelectorAll("#horarios button");
 
 botoes.forEach(btn => {
@@ -50,7 +51,7 @@ botoes.forEach(btn => {
 });
 
 // sistema para enviar horário à uma variável
-let buttons = document.querySelectorAll(".buttonHour");
+let buttons = document.querySelectorAll("#horarios button");
 let horario = null;
 
 buttons.forEach((button) => {
@@ -60,7 +61,7 @@ buttons.forEach((button) => {
 });
 
 // formulário de agendamento
-// formulário pega os dados, manda pra um objeto, mandando junto também a variável de horário, mas antes verificando se ela é null e cancelando o envio caso seja null
+let Atends = 0; // número de atendimentos do cliente
 let arrayUserData = [];
 let formAgend = document.getElementById("agendarForm");
 
@@ -84,39 +85,85 @@ formAgend.addEventListener("submit", function(event) {
     newUserData.email = newUserData.email.toLowerCase();
 
     arrayUserData.push(newUserData);
-
+    Atends += 1; // o número de atendimentos está sendo global e não de cada usuário
     formAgend.reset();
     horario = null;
-
-    // arrayUserData.forEach((value) => {
-    //     console.log(value)
-    // })
+    botoes.forEach(b => b.classList.remove("ativo"));
 });
-
-
-
 
 // formulário de login
 let formLogin = document.getElementById("formLogin");
+let arrLogin = [];
 // pega os dados do envio do formulário e compara com o conteúdo do objeto que carrega os usuários que é criado após o envio do formulário de agendamento.
 
-formLogin.addEventListener("submit", (event) => {
+formLogin.addEventListener("submit", function (event) {
+    event.preventDefault();
 
-});
+    let dataFormLogin = new FormData(formLogin);
 
-const botoes = document.querySelectorAll("#horarios button");
+    let objLogin = {};
 
-botoes.forEach(btn => {
-    btn.addEventListener("click", () => {
-        // remove ativo dos outros botões
-        botoes.forEach(b => b.classList.remove("ativo"));
-
-        // adiciona ativo no clicado
-        btn.classList.add("ativo");
+    dataFormLogin.forEach( ( value, prop ) => {
+        objLogin[prop] = value;
     });
-});
+    console.log(objLogin);
+    
+    for (let i = 0; i < arrayUserData.length; i++) {
+        if ( objLogin.nomeLogin == arrayUserData[i].nome &&
+             objLogin.emailLogin == arrayUserData[i].email ) {
 
+            let parteLogin = document.getElementById("parte2Log");
+            let agendamentosDiv = document.getElementsByClassName("showP3")[0];
+            let agendamentosBtt = document.getElementsByClassName("showP3")[1];
+            let pAgend = document.getElementsByClassName("pAgend")[0];
+    
+            parteLogin.style.display = "none";
+            agendamentosDiv.style.display = "grid";
+            agendamentosBtt.style.display = "grid";
+
+            let numberOfAgend = document.createElement("span");
+            let dataOfAgend = document.createElement("span");
+            let hourOfAgend = document.createElement("span");
+            // let deleteBtt = document.createElement("button");
+
+            numberOfAgend.setAttribute("id", "numberAgend");
+            dataOfAgend.setAttribute("id", "dataAgend");
+            hourOfAgend.setAttribute("id", "horaAgend");
+
+            // deleteBtt.classList.add("deleteBtt", "showP3");
+            numberOfAgend.classList.add("spanBorder", "borderRS");
+            dataOfAgend.classList.add("spanBorder");
+            hourOfAgend.classList.add("spanSemBorder", "borderRE");
+
+            agendamentosDiv.appendChild(numberOfAgend);
+            agendamentosDiv.appendChild(dataOfAgend);
+            agendamentosDiv.appendChild(hourOfAgend);
+            // agendamentosDiv.appendChild(deleteBtt);
+
+            // <button class="deleteBtt showP3">Deletar Agendamento</button>
+            // <span id="numberAgend" class="spanBorder borderRS"></span>
+            //         <span id="dataAgend" class="spanBorder"></span>
+            //         <span id="horaAgend" class="spanSemBorder borderRE"></span>
+
+            numberOfAgend.innerHTML = `Agendamento N°: <strong>${Atends}</strong>`;
+            dataOfAgend.innerHTML = `Data: <strong>${arrayUserData[i].data}</strong>`;
+            hourOfAgend.innerHTML = `Horário: <strong>${arrayUserData[i].hora}</strong>`;
+
+            if (Atends == 1) {
+                pAgend.textContent = `Você possui ${Atends} atendimento.`;
+            } else {
+                pAgend.textContent = `Você possui ${Atends} atendimentos.`;
+            }
+        }
+    }
+
+    formLogin.reset();
+    
+});
 
 // falta fazer a checagem pra validar o login do usuário e mostrar os agendamentos
-// seleção de horários
-// coletar dados do formulário de agendamento
+// fazer funcionalidade do botão de agendamento
+
+let buttonDelete = document.getElementsByClassName("deleteBtt");
+
+// após o botão de login não está funcionando
