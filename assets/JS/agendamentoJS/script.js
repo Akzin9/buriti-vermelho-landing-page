@@ -114,23 +114,22 @@ formLogin.addEventListener("submit", function (event) {
 
             let parteLogin = document.getElementById("parte2Log");
             let agendamentosDiv = document.getElementsByClassName("showP3")[0];
-            let agendamentosBtt = document.getElementsByClassName("showP3")[1];
+            
             let pAgend = document.getElementsByClassName("pAgend")[0];
     
             parteLogin.style.display = "none";
             agendamentosDiv.style.display = "grid";
-            agendamentosBtt.style.display = "grid";
-
+            
             let numberOfAgend = document.createElement("span");
             let dataOfAgend = document.createElement("span");
             let hourOfAgend = document.createElement("span");
-            // let deleteBtt = document.createElement("button");
+            let deleteBtt = document.createElement("button");
 
             numberOfAgend.setAttribute("id", "numberAgend");
             dataOfAgend.setAttribute("id", "dataAgend");
             hourOfAgend.setAttribute("id", "horaAgend");
 
-            // deleteBtt.classList.add("deleteBtt", "showP3");
+            deleteBtt.classList.add("deleteBtt", "showP3");
             numberOfAgend.classList.add("spanBorder", "borderRS");
             dataOfAgend.classList.add("spanBorder");
             hourOfAgend.classList.add("spanSemBorder", "borderRE");
@@ -138,32 +137,34 @@ formLogin.addEventListener("submit", function (event) {
             agendamentosDiv.appendChild(numberOfAgend);
             agendamentosDiv.appendChild(dataOfAgend);
             agendamentosDiv.appendChild(hourOfAgend);
-            // agendamentosDiv.appendChild(deleteBtt);
+            agendamentosDiv.appendChild(deleteBtt);
 
-            // <button class="deleteBtt showP3">Deletar Agendamento</button>
-            // <span id="numberAgend" class="spanBorder borderRS"></span>
-            //         <span id="dataAgend" class="spanBorder"></span>
-            //         <span id="horaAgend" class="spanSemBorder borderRE"></span>
+            let agendamentosBtt = document.getElementsByClassName("showP3");
+
+            for (let i = 1; i < agendamentosBtt.length; i++) {
+
+                agendamentosBtt[i].style.display = "grid";
+                agendamentosBtt[i].textContent = "Deletar Agendamento";    
+            };
 
             numberOfAgend.innerHTML = `Agendamento N°: <strong>${Atends}</strong>`;
             dataOfAgend.innerHTML = `Data: <strong>${arrayUserData[i].data}</strong>`;
             hourOfAgend.innerHTML = `Horário: <strong>${arrayUserData[i].hora}</strong>`;
+            
+            deleteBtt.addEventListener("click", () => {
+                numberOfAgend.remove();
+                dataOfAgend.remove();
+                hourOfAgend.remove();
+                deleteBtt.remove();
 
-            if (Atends == 1) {
-                pAgend.textContent = `Você possui ${Atends} atendimento.`;
-            } else {
-                pAgend.textContent = `Você possui ${Atends} atendimentos.`;
-            }
+                Atends--;
+                pAgend.textContent = `Você possui ${Atends} atendimento${Atends == 1 || Atends == 0 ? "s" : ""}.`;
+            });
+
+            pAgend.textContent = `Você possui ${Atends} atendimento${Atends == 1 || Atends == 0 ? "s" : ""}.`;
         }
     }
 
     formLogin.reset();
-    
+
 });
-
-// falta fazer a checagem pra validar o login do usuário e mostrar os agendamentos
-// fazer funcionalidade do botão de agendamento
-
-let buttonDelete = document.getElementsByClassName("deleteBtt");
-
-// após o botão de login não está funcionando
