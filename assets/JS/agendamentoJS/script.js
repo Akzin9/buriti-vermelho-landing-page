@@ -68,6 +68,8 @@ let formAgend = document.getElementById("agendarForm");
 formAgend.addEventListener("submit", function(event) {
     event.preventDefault();
 
+    let dataInput = document.getElementById("data");
+
     let formData = new FormData(formAgend);
 
     let newUserData = {};
@@ -81,12 +83,26 @@ formAgend.addEventListener("submit", function(event) {
         return;
     };
 
+    if ( newUserData.data == '' ) {
+        alert("Por favor, selecione uma data para o atendimento.");
+        return;
+    };
+
+    newUserData.numeroAtendimentos = 0;
     newUserData.hora = horario;
     newUserData.email = newUserData.email.toLowerCase();
 
     arrayUserData.push(newUserData);
-    Atends += 1; // o número de atendimentos está sendo global e não de cada usuário
+    
+    for (let i = 0; i < arrayUserData.length; i++) {
+        if ( newUserData.nome == arrayUserData[i].nome &&
+             newUserData.email == arrayUserData[i].email ) {
+                arrayUserData[i].numeroAtendimentos = arrayUserData[i].numeroAtendimentos + 1;
+        };
+    };
+
     formAgend.reset();
+    dataInput.value = '';
     horario = null;
     botoes.forEach(b => b.classList.remove("ativo"));
 });
@@ -147,7 +163,7 @@ formLogin.addEventListener("submit", function (event) {
                 agendamentosBtt[i].textContent = "Deletar Agendamento";    
             };
 
-            numberOfAgend.innerHTML = `Agendamento N°: <strong>${Atends}</strong>`;
+            numberOfAgend.innerHTML = `Agendamento N°: <strong>${arrayUserData[i].numeroAtendimentos}</strong>`;
             dataOfAgend.innerHTML = `Data: <strong>${arrayUserData[i].data}</strong>`;
             hourOfAgend.innerHTML = `Horário: <strong>${arrayUserData[i].hora}</strong>`;
             
@@ -157,14 +173,15 @@ formLogin.addEventListener("submit", function (event) {
                 hourOfAgend.remove();
                 deleteBtt.remove();
 
-                Atends--;
-                pAgend.textContent = `Você possui ${Atends} atendimento${Atends == 1 || Atends == 0 ? "s" : ""}.`;
+                arrayUserData[i].numeroAtendimentos--;
+                pAgend.textContent = `Você possui ${arrayUserData[i].numeroAtendimentos} atendimento${arrayUserData[i].numeroAtendimentos == 1 || arrayUserData[i].numeroAtendimentos == 0 ? "s" : ""}.`;
             });
 
-            pAgend.textContent = `Você possui ${Atends} atendimento${Atends == 1 || Atends == 0 ? "s" : ""}.`;
+            pAgend.textContent = `Você possui ${arrayUserData[i].numeroAtendimentos} atendimento${arrayUserData[i].numeroAtendimentos == 1 || arrayUserData[i].numeroAtendimentos == 0 ? "s" : ""}.`;
         }
     }
 
     formLogin.reset();
+    console.log(arrayUserData[i].data == '')
 
 });
