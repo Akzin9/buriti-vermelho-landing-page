@@ -21,18 +21,18 @@
             <section id="container">
                 <div id="form-container">
 
-                    <form action="">
+                    <form action="" id="agendarForm">
 
                         <div class="formsAreas">
 
                             <strong><label for="name">Cliente</label></strong><br>
-                            <input type="text" id="name" class="forms" placeholder="Ex.: Pablo Antonio" required><br><br>
+                            <input type="text" id="name" name="nome" value="Davi" class="forms" placeholder="Ex.: Pablo Antonio" required><br><br>
 
                             <strong><label for="email">E-mail</label></strong><br>
-                            <input type="email" id="email" class="forms" placeholder="Ex.: seuemail@gmail.com" required><br><br>
+                            <input type="email" id="email" name="email" value="davi@gmail.com" class="forms" placeholder="Ex.: seuemail@gmail.com" required><br><br>
 
                             <strong><label for="tel">Telefone</label></strong><br>
-                            <input type="tel" id="tel" class="forms" maxlength="16" minlength="11" placeholder="Ex.: (99) 99999-9999" required><br><br>
+                            <input type="tel" id="tel" name="tel" class="forms" value="(61) 9 9194-8320" maxlength="16" minlength="11" placeholder="Ex.: (99) 99999-9999" required><br><br>
                         </div> 
 
                         <div class="formsAreas">
@@ -88,7 +88,7 @@
                 
                 <h3 class="showP1">Seus Agendamentos</h3>
                 <!-- parte antes de logar -->
-                <p class="showP1">Você precisa estar logado para ver seus agendamentos</p>
+                <p class="showP1 pAgend">Você precisa estar logado para ver seus agendamentos</p>
                 <button class="showP1 showBtt1" id="loginBtt">Logar</button>
 
                 <!-- parte após clicar no botão "Logar" -->
@@ -96,28 +96,18 @@
                 <form action="" id="formLogin">
                     
                     <label for="nomeLogin" class="labelLogin"><strong>Nome</strong></label><br>
-                    <input type="text" id="nomeLogin" placeholder="Digite seu Nome Completo" required>
+                    <input type="text" id="nomeLogin" name="nomeLogin" value="Davi" placeholder="Digite seu Nome Completo" required>
                     <br>
                     <label for="emailLogin" class="labelLogin"><strong>E-mail</strong></label><br>
-                    <input type="email" id="emailLogin" placeholder="seuemail@gmail.com" required>
+                    <input type="email" id="emailLogin" name="emailLogin" value="davi@gmail.com" placeholder="Ex.: seuemail@gmail.com" required>
                     <br>
-                    <button id="bttLogar">Logar</button>
+                    <button id="bttLogar" type="submit">Logar</button>
 
                 </form>
                 </div>
 
                 <!-- parte executada após o login -->
-                <p class="showP3">Você possui <strong>X</strong> agendamentos.</p>
-
-                <div class="agends showP3">
-
-                    <span id="numberAgend" class="spanBorder borderRS">Agendamento N°: <strong>1</strong></span>
-                    <span id="dataAgend" class="spanBorder">Data: <strong>01/01/2025</strong></span>
-                    <span id="horaAgend" class="spanSemBorder borderRE">Horário: <strong>10:00</strong></span>
-                </div>
-                
-                <button class="deleteBtt showP3">Deletar Agendamento</button>
-
+                <div class="agends showP3"></div>
             </div>
         </main>
     </div>

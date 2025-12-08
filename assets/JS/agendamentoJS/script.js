@@ -37,6 +37,7 @@ buttonLog1.addEventListener( "click", (event) => {
     
 });
 
+// mudança na cor do botão de acordo com a condição "ativo"
 const botoes = document.querySelectorAll("#horarios button");
 
 botoes.forEach(btn => {
@@ -49,7 +50,138 @@ botoes.forEach(btn => {
     });
 });
 
+// sistema para enviar horário à uma variável
+let buttons = document.querySelectorAll("#horarios button");
+let horario = null;
 
-// falta fazer a checagem pra validar o login do usuário e mostrar os agendamentos
-// seleção de horários
-// coletar dados do formulário de agendamento
+buttons.forEach((button) => {
+    button.addEventListener("click", (event) => {
+        horario = button.textContent;
+    });
+});
+
+// formulário de agendamento
+let Atends = 0; // número de atendimentos do cliente
+let arrayUserData = [];
+let formAgend = document.getElementById("agendarForm");
+
+formAgend.addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    let dataInput = document.getElementById("data");
+
+    let formData = new FormData(formAgend);
+
+    let newUserData = {};
+
+    formData.forEach( ( value, prop ) => {
+        newUserData[prop] = value;
+    });
+
+    if (horario == null) {
+        alert("Por favor, selecione um horário!");
+        return;
+    };
+
+    if ( newUserData.data == '' ) {
+        alert("Por favor, selecione uma data para o atendimento.");
+        return;
+    };
+
+    newUserData.numeroAtendimentos = 0;
+    newUserData.hora = horario;
+    newUserData.email = newUserData.email.toLowerCase();
+
+    arrayUserData.push(newUserData);
+    
+    for (let i = 0; i < arrayUserData.length; i++) {
+        if ( newUserData.nome == arrayUserData[i].nome &&
+             newUserData.email == arrayUserData[i].email ) {
+                arrayUserData[i].numeroAtendimentos = arrayUserData[i].numeroAtendimentos + 1;
+        };
+    };
+
+    formAgend.reset();
+    dataInput.value = '';
+    horario = null;
+    botoes.forEach(b => b.classList.remove("ativo"));
+});
+
+// formulário de login
+let formLogin = document.getElementById("formLogin");
+let arrLogin = [];
+// pega os dados do envio do formulário e compara com o conteúdo do objeto que carrega os usuários que é criado após o envio do formulário de agendamento.
+
+formLogin.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    let dataFormLogin = new FormData(formLogin);
+
+    let objLogin = {};
+
+    dataFormLogin.forEach( ( value, prop ) => {
+        objLogin[prop] = value;
+    });
+    console.log(objLogin);
+    
+    for (let i = 0; i < arrayUserData.length; i++) {
+        if ( objLogin.nomeLogin == arrayUserData[i].nome &&
+             objLogin.emailLogin == arrayUserData[i].email ) {
+
+            let parteLogin = document.getElementById("parte2Log");
+            let agendamentosDiv = document.getElementsByClassName("showP3")[0];
+            
+            let pAgend = document.getElementsByClassName("pAgend")[0];
+    
+            parteLogin.style.display = "none";
+            agendamentosDiv.style.display = "grid";
+            
+            let numberOfAgend = document.createElement("span");
+            let dataOfAgend = document.createElement("span");
+            let hourOfAgend = document.createElement("span");
+            let deleteBtt = document.createElement("button");
+
+            numberOfAgend.setAttribute("id", "numberAgend");
+            dataOfAgend.setAttribute("id", "dataAgend");
+            hourOfAgend.setAttribute("id", "horaAgend");
+
+            deleteBtt.classList.add("deleteBtt", "showP3");
+            numberOfAgend.classList.add("spanBorder", "borderRS");
+            dataOfAgend.classList.add("spanBorder");
+            hourOfAgend.classList.add("spanSemBorder", "borderRE");
+
+            agendamentosDiv.appendChild(numberOfAgend);
+            agendamentosDiv.appendChild(dataOfAgend);
+            agendamentosDiv.appendChild(hourOfAgend);
+            agendamentosDiv.appendChild(deleteBtt);
+
+            let agendamentosBtt = document.getElementsByClassName("showP3");
+
+            for (let i = 1; i < agendamentosBtt.length; i++) {
+
+                agendamentosBtt[i].style.display = "grid";
+                agendamentosBtt[i].textContent = "Deletar Agendamento";    
+            };
+
+            numberOfAgend.innerHTML = `Agendamento N°: <strong>${arrayUserData[i].numeroAtendimentos}</strong>`;
+            dataOfAgend.innerHTML = `Data: <strong>${arrayUserData[i].data}</strong>`;
+            hourOfAgend.innerHTML = `Horário: <strong>${arrayUserData[i].hora}</strong>`;
+            
+            deleteBtt.addEventListener("click", () => {
+                numberOfAgend.remove();
+                dataOfAgend.remove();
+                hourOfAgend.remove();
+                deleteBtt.remove();
+
+                arrayUserData[i].numeroAtendimentos--;
+                pAgend.textContent = `Você possui ${arrayUserData[i].numeroAtendimentos} atendimento${arrayUserData[i].numeroAtendimentos == 1 || arrayUserData[i].numeroAtendimentos == 0 ? "s" : ""}.`;
+            });
+
+            pAgend.textContent = `Você possui ${arrayUserData[i].numeroAtendimentos} atendimento${arrayUserData[i].numeroAtendimentos == 1 || arrayUserData[i].numeroAtendimentos == 0 ? "s" : ""}.`;
+        }
+    }
+
+    formLogin.reset();
+    console.log(arrayUserData[i].data == '')
+
+});
