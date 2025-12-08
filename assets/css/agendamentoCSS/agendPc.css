@@ -223,7 +223,7 @@ div#agendamentos-area button#loginBtt {
 
 
 div#agendamentos-area button:hover {
-    filter: brightness(0.8);   
+    transform: translateY(-1.5px);
 }
 
 div#agendamentos-area p {
@@ -250,29 +250,26 @@ span.borderRE {
 }
 
 div.agends span {
-    padding: 5px;
+    padding: 8px;
     color: black;
-    border: 1px solid rgba(0, 0, 0, 0.507);
     width: 100%;
-    background-color: var(--bnt-border-color);
+    border: 2px solid var(--cor-bordas);
+    background-color: var(--cor-bg);
+    margin-bottom: 5px;
 }
 
 button.deleteBtt {
-    border: solid 1px rgb(0, 0, 0);
-    background-color: rgb(247, 46, 46);
-    border-radius: 15px;
+    background-color: var(--cor-secundaria);
+    border-radius: 5px;
     font-size: 11pt;
-    font-weight: 500;
+    font-weight: 600;
     margin-top: 2%;
     color: rgb(233, 233, 233);
-    padding: 8px;
-    transition: 0.3s;
+    padding: 12px;
+    transition: 0.3s ease;
     cursor: pointer;
     margin-bottom: 3%;
-}
-
-button.deleteBtt:hover {
-    filter: brightness(0.8);
+    border: none;
 }
 
 form#formLogin {
@@ -317,7 +314,6 @@ button#bttLogar {
 
 button#bttLogar:hover {
     transform: scale(1.05);
-    filter: brightness(0.8);
 }
 
 div#parte2Log {
