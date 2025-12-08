@@ -49,7 +49,7 @@ html, body {
 
 body {
     background-color: var(--cor-bg);
-    color: white;
+    color: rgb(0, 0, 0);
     display: flex;
     flex-direction: column;
     min-height: 100vh;
@@ -105,8 +105,8 @@ div#agendamentos-container:hover {
 }
 
 div#agendamentos-container.ativo {
-    background-color: white;
-    color: var(--cor-primaria);
+    background-color: var(--cor-primaria);
+    color: white;
     border: none
 }
 
@@ -135,7 +135,6 @@ div.formsAreas {
 }
 
 input.forms {
-
     border: 2px solid var(--cor-bordas);
     background-color: var(--cor-bg);
     margin-top: 1%;
@@ -201,7 +200,7 @@ div#agendamentos-area {
     min-height: 757px;
     margin-left: 2.5%;
     max-width: 35%;
-    background-color: var(--cor-primaria);
+    background-color: white;
     padding: 40px;
     border-radius: 15px;
     flex: 1;
@@ -209,9 +208,9 @@ div#agendamentos-area {
 
 
 div#agendamentos-area button#loginBtt {
-    color: var(--cor-primaria);
+    color: white;
     border: none;
-    background-color: white;
+    background-color: var(--cor-primaria);
     padding: 16px;
     border-radius: 15px;
     width: 50%;
@@ -235,25 +234,25 @@ div.agends {
     display: flex;
     margin-top: 5%;
     width: 100%;
+    max-height: 70vh;
+    overflow: auto;
     text-align: center;
-}
-
-div.agends span.spanBorder {
-    border-right: 1px solid black;
 }
 
 span.borderRS {
     border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
+    border-top-right-radius: 5px;
 }
 
 span.borderRE {
-    border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
 }
 
 div.agends span {
     padding: 5px;
+    color: black;
+    border: 1px solid rgba(0, 0, 0, 0.507);
     width: 100%;
     background-color: var(--bnt-border-color);
 }
@@ -266,10 +265,10 @@ button.deleteBtt {
     font-weight: 500;
     margin-top: 2%;
     color: rgb(233, 233, 233);
-    padding: 12px;
+    padding: 8px;
     transition: 0.3s;
     cursor: pointer;
-    align-self: flex-start;
+    margin-bottom: 3%;
 }
 
 button.deleteBtt:hover {
@@ -290,6 +289,7 @@ form#formLogin {
 
 label.labelLogin {
     align-self: flex-start;
+    color: black;
 }
 
 input#nomeLogin, input#emailLogin {
@@ -303,15 +303,21 @@ input#nomeLogin, input#emailLogin {
 }
 
 button#bttLogar {
-    color: var(--cor-primaria);
+    color: white;
     padding: 12px;
     border: none;
     font-size: 12pt;
     cursor: pointer;
     font-weight: 700;
     border-radius: 5px;
-    background-color: white;
+    background-color: var(--cor-primaria);
     width: 40%;
+    transition: 0.3s;
+}
+
+button#bttLogar:hover {
+    transform: scale(1.05);
+    filter: brightness(0.8);
 }
 
 div#parte2Log {
