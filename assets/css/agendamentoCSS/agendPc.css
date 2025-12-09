@@ -326,3 +326,25 @@ div#parte2Log {
 button.showP3, div.showP3, p.showP3 {
     display: none;
 }
+
+button#logOutBtt {
+    color: white;
+    position: absolute;
+    background-color: var(--cor-primaria);
+    border: none;
+    padding: 12px;
+    padding-left: 30px;
+    padding-right: 30px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 11pt;
+    font-weight: 600;
+    transition: 0.3s ease;
+    margin-left: 500px;
+    margin-top: -10px;
+}
+    
+button#logOutBtt:hover { 
+    background-color: var(--cor-secundaria); 
+    transform: translateY(1.5px);
+}
