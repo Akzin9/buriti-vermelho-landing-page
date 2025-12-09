@@ -123,10 +123,13 @@ formLogin.addEventListener("submit", function (event) {
         objLogin[prop] = value;
     });
     console.log(objLogin);
+    let userFound;
     
     for (let i = 0; i < arrayUserData.length; i++) {
         if ( objLogin.nomeLogin == arrayUserData[i].nome &&
              objLogin.emailLogin == arrayUserData[i].email ) {
+
+            userFound = true;
 
             let parteLogin = document.getElementById("parte2Log");
             let agendamentosDiv = document.getElementsByClassName("showP3")[0];
@@ -140,6 +143,7 @@ formLogin.addEventListener("submit", function (event) {
             let dataOfAgend = document.createElement("span");
             let hourOfAgend = document.createElement("span");
             let deleteBtt = document.createElement("button");
+            let logOutBtt = document.createElement("button");
 
             numberOfAgend.setAttribute("id", "numberAgend");
             dataOfAgend.setAttribute("id", "dataAgend");
@@ -164,6 +168,7 @@ formLogin.addEventListener("submit", function (event) {
             };
 
             numberOfAgend.innerHTML = `Agendamento N°: <strong>${arrayUserData[i].numeroAtendimentos}</strong>`;
+            pAgend.innerHTML = `Você possui <strong>${arrayUserData[i].numeroAtendimentos}</strong> atendimento${arrayUserData[i].numeroAtendimentos == 1 ? "" : "s"}.`;
             dataOfAgend.innerHTML = `Data: <strong>${arrayUserData[i].data}</strong>`;
             hourOfAgend.innerHTML = `Horário: <strong>${arrayUserData[i].hora}</strong>`;
             
@@ -174,14 +179,17 @@ formLogin.addEventListener("submit", function (event) {
                 deleteBtt.remove();
 
                 arrayUserData[i].numeroAtendimentos--;
-                pAgend.textContent = `Você possui ${arrayUserData[i].numeroAtendimentos} atendimento${arrayUserData[i].numeroAtendimentos == 1 || arrayUserData[i].numeroAtendimentos == 0 ? "s" : ""}.`;
+                pAgend.innerHTML = `Você possui <strong>${arrayUserData[i].numeroAtendimentos}</strong> atendimento${arrayUserData[i].numeroAtendimentos == 1 ? "" : "s"}.`;
             });
-
-            pAgend.textContent = `Você possui ${arrayUserData[i].numeroAtendimentos} atendimento${arrayUserData[i].numeroAtendimentos == 1 || arrayUserData[i].numeroAtendimentos == 0 ? "s" : ""}.`;
-        }
+        } else {
+            userFound = false;
+        };
     }
 
+    if ( userFound == false ) {
+        alert("Usuário não encontrado.");
+    };
+
     formLogin.reset();
-    console.log(arrayUserData[i].data == '')
 
 });

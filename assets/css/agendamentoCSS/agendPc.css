@@ -326,3 +326,7 @@ div#parte2Log {
 button.showP3, div.showP3, p.showP3 {
     display: none;
 }
+
+button#logOutBtt {
+    display: none;
+}
