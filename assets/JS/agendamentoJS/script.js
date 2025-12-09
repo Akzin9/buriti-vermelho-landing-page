@@ -88,18 +88,20 @@ formAgend.addEventListener("submit", function(event) {
         return;
     };
 
-    newUserData.numeroAtendimentos = 0;
+    newUserData.numeroAtendimentos = arrayUserData.length + 1;
     newUserData.hora = horario;
     newUserData.email = newUserData.email.toLowerCase();
 
     arrayUserData.push(newUserData);
     
-    for (let i = 0; i < arrayUserData.length; i++) {
-        if ( newUserData.nome == arrayUserData[i].nome &&
-             newUserData.email == arrayUserData[i].email ) {
-                arrayUserData[i].numeroAtendimentos = arrayUserData[i].numeroAtendimentos + 1;
-        };
-    };
+    // for (let i = 0; i < arrayUserData.length; i++) {
+
+    //     console.log(arrayUserData[i]);
+    //     if ( newUserData.nome == arrayUserData[i].nome &&
+    //          newUserData.email == arrayUserData[i].email ) {
+    //             arrayUserData[i].numeroAtendimentos = arrayUserData[i].numeroAtendimentos + 1;
+    //     };
+    // };
 
     formAgend.reset();
     dataInput.value = '';
@@ -133,9 +135,10 @@ formLogin.addEventListener("submit", function (event) {
 
             let parteLogin = document.getElementById("parte2Log");
             let agendamentosDiv = document.getElementsByClassName("showP3")[0];
-            
+            let logOutBtt = document.getElementById("logOutBtt");
             let pAgend = document.getElementsByClassName("pAgend")[0];
     
+            logOutBtt.style.display = "initial";
             parteLogin.style.display = "none";
             agendamentosDiv.style.display = "grid";
             
@@ -143,7 +146,6 @@ formLogin.addEventListener("submit", function (event) {
             let dataOfAgend = document.createElement("span");
             let hourOfAgend = document.createElement("span");
             let deleteBtt = document.createElement("button");
-            let logOutBtt = document.createElement("button");
 
             numberOfAgend.setAttribute("id", "numberAgend");
             dataOfAgend.setAttribute("id", "dataAgend");
@@ -168,7 +170,7 @@ formLogin.addEventListener("submit", function (event) {
             };
 
             numberOfAgend.innerHTML = `Agendamento N°: <strong>${arrayUserData[i].numeroAtendimentos}</strong>`;
-            pAgend.innerHTML = `Você possui <strong>${arrayUserData[i].numeroAtendimentos}</strong> atendimento${arrayUserData[i].numeroAtendimentos == 1 ? "" : "s"}.`;
+            pAgend.innerHTML = `Você possui <strong>${arrayUserData.length}</strong> atendimento${arrayUserData[i].numeroAtendimentos == 1 ? "" : "s"}.`;
             dataOfAgend.innerHTML = `Data: <strong>${arrayUserData[i].data}</strong>`;
             hourOfAgend.innerHTML = `Horário: <strong>${arrayUserData[i].hora}</strong>`;
             
@@ -176,10 +178,11 @@ formLogin.addEventListener("submit", function (event) {
                 numberOfAgend.remove();
                 dataOfAgend.remove();
                 hourOfAgend.remove();
+                
                 deleteBtt.remove();
 
-                arrayUserData[i].numeroAtendimentos--;
-                pAgend.innerHTML = `Você possui <strong>${arrayUserData[i].numeroAtendimentos}</strong> atendimento${arrayUserData[i].numeroAtendimentos == 1 ? "" : "s"}.`;
+                arrayUserData.length--;
+                pAgend.innerHTML = `Você possui <strong>${arrayUserData.length}</strong> atendimento${arrayUserData.length == 1 ? "" : "s"}.`;
             });
         } else {
             userFound = false;
@@ -192,4 +195,28 @@ formLogin.addEventListener("submit", function (event) {
 
     formLogin.reset();
 
+});
+
+// Botão de deslogar
+let logOutBtt = document.getElementById("logOutBtt");
+logOutBtt.addEventListener( "click", (event) => {
+    let parteLogin = document.getElementById("parte2Log");
+    let agendamentosDiv = document.getElementsByClassName("showP3")[0];
+    let pAgend = document.getElementsByClassName("pAgend")[0];
+    
+    pAgend.textContent = "Você precisa estar logado para ver seus agendamentos";
+    parteLogin.style.display = "flex";
+    agendamentosDiv.style.display = "none";
+    logOutBtt.style.display = "none";
+
+    // for (let i = 0; i < )
+    let numberOfAgend = document.getElementById("numberAgend");
+    let dataOfAgend = document.getElementById("dataAgend");
+    let hourOfAgend = document.getElementById("horaAgend");
+    let deleteBtt = document.getElementsByClassName("deleteBtt");
+
+    numberOfAgend.remove();
+    dataOfAgend.remove();
+    hourOfAgend.remove();
+    deleteBtt.remove();
 });
