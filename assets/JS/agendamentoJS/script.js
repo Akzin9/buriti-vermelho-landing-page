@@ -213,36 +213,26 @@ logOutBtt.addEventListener( "click", (event) => {
 });
 
 // testes para a execução do sistema de agendamento funcional
-let user1 = {
-    nome: "Davi",
-    email: "email@gmail.com",
-    tel: "(61) 9 9194-8320",
-    horario: "10:00",
-    data: "10/12/2025",
-    numeroAtendimento: 1,
-};
 
-let davi = [{
-    email: "email@gmail.com",
-    tel: "(61) 9 9194-8320",
-    horario: "10:00",
-    data: "10/12/2025",
-    numeroAtendimento: 1,
-}, {
-    email: "email@gmail.com",
-    tel: "(61) 9 9194-8320",
-    horario: "15:00",
-    data: "16/12/2025",
-    numeroAtendimento: 2,
-}, {
-    email: "email@gmail.com",
-    tel: "(61) 9 9194-8320",
-    horario: "15:00",
-    data: "20/12/2025",
-    numeroAtendimento: 3,
-}];
+let arr = [
+    {
+        id: 1,
+        name: "davi",
+        agendamentos: [
+            {
+                tel: "tel",
+                horario: "00:00",
+                data: "11/11/2025",
+                numeroAtendimento: 1,
+                email: "davi@gmail.com",
+            }
+        ]
+    } 
+]
 
 localStorage.setItem("davi", JSON.stringify(davi));
 console.log(davi.filter((value) => value.horario == "15:00"));
 
 // lógica para sistema de agendamento: criar uma variável para cada usuário, nessa variável conterá os dados de cada agendamento, sendo cada agendamento um objeto diferente, para passar esses dados para a parte de agendamentos será feito um filter com base no nome ou email do usuário. (requisitos: JSON.stringify, JSON.parse, remoção de objeto dentro da array, adição de objeto dentro da array e filter)
+
+// pegar os dados -> verificar se há um nome e email igual ao dos dados dentro de alguma array e caso haja colocar os novos dados dentro de mais um objeto dentro dessa array, caso não haja um nome e email igual então será criado uma nova array dentro da array mãe com um novo objeto carregando esses dados 
