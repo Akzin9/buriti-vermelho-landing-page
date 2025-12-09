@@ -341,6 +341,7 @@ button#logOutBtt {
     font-weight: 600;
     transition: 0.3s ease;
     margin-left: 500px;
+    margin-top: -10px;
 }
     
 button#logOutBtt:hover { 
