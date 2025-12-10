@@ -75,13 +75,57 @@ formAgend.addEventListener("submit", function(event) {
 
     let newUserData = {};
 
-    formData.forEach( ( value, prop ) => {
-        newUserData[prop] = value;
-    });
+    let userFound = false;
 
-    newUserData.numeroAtendimentos = arrayUserData.length + 1;
-    newUserData.hora = horario;
-    newUserData.email = newUserData.email.toLowerCase();
+    // adiciona novo agendamento à usuário já existente
+    for (let i = 0; i < arrayUserData.length; i++) {
+        if ( formData.get("nome") == arrayUserData[i].nome && formData.get("email").toLowerCase() == arrayUserData[i].email ) {
+
+            userFound = true;
+            let agend = {};
+
+            formData.forEach( ( value, prop ) => {
+                agend[prop] = value;
+            });
+
+            delete agend.nome;
+            delete agend.email;
+
+            agend.hora = horario;
+            agend.numeroAtendimento = arrayUserData[i].agendamentos.length + 1;
+
+            arrayUserData[i].agendamentos.push(agend);
+        };
+    };
+
+    // cria novo agendamento de usuário
+    for (let p = 0; p < arrayUserData.length; p++) {
+        if (!formData.get("nome") == arrayUserData[p].nome && formData.get("email").toLowerCase() == arrayUserData[p].email ) {
+            userFound = false;
+        };
+    };
+
+    if ( userFound == false ) {
+        newUserData.id = arrayUserData.length + 1;
+        newUserData.nome = formData.get("nome");
+        newUserData.email = formData.get("email").toLowerCase();
+        
+        newUserData.agendamentos = [];
+        let agendsObj = {};
+
+        formData.forEach( ( value, prop ) => {
+            agendsObj[prop] = value;
+        });
+
+        delete agendsObj.nome;
+        delete agendsObj.email;
+
+        agendsObj.hora = horario;
+        agendsObj.numeroAtendimento = 1;
+
+        newUserData.agendamentos.push(agendsObj);
+        arrayUserData.push(newUserData);
+    };
 
     // cancela o envio do formulário caso não possua data ou horário
     if (horario == null) {
@@ -89,13 +133,10 @@ formAgend.addEventListener("submit", function(event) {
         return;
     };
 
-    if ( newUserData.data == '' ) {
+    if ( formData.get("data") == '' ) {
         alert("Por favor, selecione uma data para o atendimento.");
         return;
     };
-
-    // manda os dados do formulário para a array com os dados dos usuários
-    arrayUserData.push(newUserData);
     
     // reseta os dados do formulário
     formAgend.reset();
@@ -213,22 +254,6 @@ logOutBtt.addEventListener( "click", (event) => {
 });
 
 // testes para a execução do sistema de agendamento funcional
-
-let arr = [
-    {
-        id: 1,
-        name: "davi",
-        agendamentos: [
-            {
-                tel: "tel",
-                horario: "00:00",
-                data: "11/11/2025",
-                numeroAtendimento: 1,
-                email: "davi@gmail.com",
-            }
-        ]
-    } 
-]
 
 localStorage.setItem("davi", JSON.stringify(davi));
 console.log(davi.filter((value) => value.horario == "15:00"));
