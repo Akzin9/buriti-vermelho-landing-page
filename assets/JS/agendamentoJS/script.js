@@ -67,7 +67,7 @@ let formAgend = document.getElementById("agendarForm");
 
 formAgend.addEventListener("submit", function(event) {
     event.preventDefault();
-    
+
     // coleta os dados e cria um objeto com esses dados
     let dataInput = document.getElementById("data");
 
@@ -75,7 +75,36 @@ formAgend.addEventListener("submit", function(event) {
 
     let newUserData = {};
 
+    let dataForm = formData.get("data");
+
     let userFound = false;
+
+        for ( let i = 0; i < arrayUserData.length; i++ ) {
+
+            let nomeForm = arrayUserData[i].nome; 
+            let userData = JSON.parse(localStorage.getItem(nomeForm));
+
+            let numeroAgendamentos = userData.agendamentos.length;
+
+            for (let j = 0; j < numeroAgendamentos; j++) {
+                let check = [
+                    {
+                        horarioObjUser: "",
+                        dataObjUser: "",
+                    },
+                ];
+
+                check.horarioObjUser = userData.agendamentos[j].hora;
+                check.dataObjUser = userData.agendamentos[j].data;
+
+                if ( horario == check.horarioObjUser && dataForm == check.dataObjUser )  {
+                    alert("Já existe um agendamento marcado para esse dia e hora! Por favor, remarque.");
+                    // criar sistema pra deixar botão de horário escuro caso exista horário marcado no respectivo dia
+                    return;
+                };
+            };
+        };
+    
 
     // adiciona novo agendamento à usuário já existente
     for (let i = 0; i < arrayUserData.length; i++) {
@@ -83,6 +112,7 @@ formAgend.addEventListener("submit", function(event) {
 
             userFound = true;
             let agend = {};
+            let userAgendData = JSON.parse( localStorage.getItem( arrayUserData[i].nome ) );
 
             formData.forEach( ( value, prop ) => {
                 agend[prop] = value;
@@ -92,22 +122,27 @@ formAgend.addEventListener("submit", function(event) {
             delete agend.email;
 
             agend.hora = horario;
-            agend.numeroAtendimento = arrayUserData[i].agendamentos.length + 1;
+            agend.numeroAtendimento = userAgendData.agendamentos.length + 1;
 
-            arrayUserData[i].agendamentos.push(agend);
+            userAgendData.agendamentos.push( agend );
+
+            localStorage.setItem( arrayUserData[i].nome, JSON.stringify( userAgendData ) );
+
         };
     };
 
-    // cria novo agendamento de usuário
+    // coloca userFound como false para que seja possível criar um novo usuário
     for (let p = 0; p < arrayUserData.length; p++) {
         if (!formData.get("nome") == arrayUserData[p].nome && formData.get("email").toLowerCase() == arrayUserData[p].email ) {
             userFound = false;
         };
     };
 
+    // cria novo agendamento de usuário
     if ( userFound == false ) {
         newUserData.id = arrayUserData.length + 1;
-        newUserData.nome = formData.get("nome");
+        let nomeForm = formData.get("nome");
+        newUserData.nome = nomeForm;
         newUserData.email = formData.get("email").toLowerCase();
         
         newUserData.agendamentos = [];
@@ -125,6 +160,9 @@ formAgend.addEventListener("submit", function(event) {
 
         newUserData.agendamentos.push(agendsObj);
         arrayUserData.push(newUserData);
+
+        localStorage.setItem(nomeForm, JSON.stringify(newUserData));
+
     };
 
     // cancela o envio do formulário caso não possua data ou horário
@@ -253,11 +291,4 @@ logOutBtt.addEventListener( "click", (event) => {
     
 });
 
-// testes para a execução do sistema de agendamento funcional
-
-localStorage.setItem("davi", JSON.stringify(davi));
-console.log(davi.filter((value) => value.horario == "15:00"));
-
-// lógica para sistema de agendamento: criar uma variável para cada usuário, nessa variável conterá os dados de cada agendamento, sendo cada agendamento um objeto diferente, para passar esses dados para a parte de agendamentos será feito um filter com base no nome ou email do usuário. (requisitos: JSON.stringify, JSON.parse, remoção de objeto dentro da array, adição de objeto dentro da array e filter)
-
-// pegar os dados -> verificar se há um nome e email igual ao dos dados dentro de alguma array e caso haja colocar os novos dados dentro de mais um objeto dentro dessa array, caso não haja um nome e email igual então será criado uma nova array dentro da array mãe com um novo objeto carregando esses dados 
+// falta fazer sistema para atualizar a lista de agendamentos vísivel sempre que houver um novo agendamento, refatorar, sistema de remoção de agendamentos, sistema de logout, sistema de admin com algum nível de segurança (opcional), sistema para bloqueio de horário e data já preenchido 
