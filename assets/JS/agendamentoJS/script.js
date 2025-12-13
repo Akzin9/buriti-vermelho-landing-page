@@ -63,7 +63,63 @@ buttons.forEach((button) => {
 
 // formulário de agendamento
 let arrayUserData = [];
+let currentUser = {
+        nome: "",
+        email: "",
+        };
+
 let formAgend = document.getElementById("agendarForm");
+
+// function de crição dos agendamentos na lista de agendamentos
+function createScheduling( quantitySchedulings, dateScheduling, userEmail) {
+
+    let agendamentosDiv = document.getElementsByClassName("showP3")[0];
+    let pAgend = document.getElementsByClassName("pAgend")[0];
+
+    let numberOfAgend = document.createElement("span");
+    let dataOfAgend = document.createElement("span");
+    let hourOfAgend = document.createElement("span");
+    let deleteBtt = document.createElement("button");
+
+    numberOfAgend.setAttribute("id", "numberAgend");
+    dataOfAgend.setAttribute("id", "dataAgend");
+    hourOfAgend.setAttribute("id", "horaAgend");
+    deleteBtt.setAttribute("data-id", quantitySchedulings);
+    deleteBtt.setAttribute("data-email", userEmail);
+
+    deleteBtt.classList.add("deleteBtt", "showP3");
+    numberOfAgend.classList.add("spanBorder", "borderRS");
+    dataOfAgend.classList.add("spanBorder");
+    hourOfAgend.classList.add("spanSemBorder", "borderRE");
+
+    agendamentosDiv.appendChild(numberOfAgend);
+    agendamentosDiv.appendChild(dataOfAgend);
+    agendamentosDiv.appendChild(hourOfAgend);
+    agendamentosDiv.appendChild(deleteBtt);
+
+    let agendamentosBtt = document.getElementsByClassName("showP3");
+
+    for (let i = 1; i < agendamentosBtt.length; i++) {
+
+        agendamentosBtt[i].style.display = "grid";
+        agendamentosBtt[i].textContent = "Deletar Agendamento";
+            
+    };    
+  
+    pAgend.innerHTML = `Você possui <strong>${ quantitySchedulings }</strong> atendimento${ quantitySchedulings == 1 ? "" : "s" }.`;
+    numberOfAgend.innerHTML = `Agendamento N°: <strong>${ quantitySchedulings }</strong>`;
+    dataOfAgend.innerHTML = `Data: <strong>${ dateScheduling }</strong>`;
+    hourOfAgend.innerHTML = `Horário: <strong>${ horario }</strong>`;    
+
+    deleteBtt.addEventListener("click", (event) => {
+
+        console.log(event.target);
+        // desestruturar e criar escopo só pra ele
+    });
+
+    // adicionar confirmação para botão de delete
+
+};
 
 formAgend.addEventListener("submit", function(event) {
     event.preventDefault();
@@ -76,39 +132,53 @@ formAgend.addEventListener("submit", function(event) {
     let newUserData = {};
 
     let dataForm = formData.get("data");
+    let dataName = formData.get("nome");
+    let dataEmail = formData.get("email");
 
     let userFound = false;
 
-        for ( let i = 0; i < arrayUserData.length; i++ ) {
+    // sistema para bloquear dias e horários já ocupados
+    for ( let i = 0; i < arrayUserData.length; i++ ) {
 
-            let nomeForm = arrayUserData[i].nome; 
-            let userData = JSON.parse(localStorage.getItem(nomeForm));
+        let nomeForm = arrayUserData[i].nome; 
+        let userData = JSON.parse( localStorage.getItem( nomeForm ) );
 
-            let numeroAgendamentos = userData.agendamentos.length;
+        let numeroAgendamentos = userData.agendamentos.length;
 
-            for (let j = 0; j < numeroAgendamentos; j++) {
-                let check = [
-                    {
-                        horarioObjUser: "",
-                        dataObjUser: "",
-                    },
-                ];
+        for (let j = 0; j < numeroAgendamentos; j++) {
+            let check = [
+                {
+                    horarioObjUser: "",
+                    dataObjUser: "",
+                },
+            ];
 
-                check.horarioObjUser = userData.agendamentos[j].hora;
-                check.dataObjUser = userData.agendamentos[j].data;
+            check.horarioObjUser = userData.agendamentos[j].hora;
+            check.dataObjUser = userData.agendamentos[j].data;
 
-                if ( horario == check.horarioObjUser && dataForm == check.dataObjUser )  {
-                    alert("Já existe um agendamento marcado para esse dia e hora! Por favor, remarque.");
-                    // criar sistema pra deixar botão de horário escuro caso exista horário marcado no respectivo dia
-                    return;
-                };
+            if ( horario == check.horarioObjUser && dataForm == check.dataObjUser )  {
+                alert("Já existe um agendamento marcado para esse dia e hora! Por favor, remarque.");
+                // criar sistema pra deixar botão de horário escuro caso exista horário marcado no respectivo dia
+                return;
             };
         };
+    };
     
+    // atualiza lista de agendamentos do usuário logado no momento
+    // if ( currentUser.nome == dataName && currentUser.email == dataEmail ) {
+
+        // dados do local storage do respectivo usuário
+        let currentUserData = JSON.parse(localStorage.getItem(currentUser.nome || dataName));
+        let quantityAgendsUser = currentUserData ? currentUserData.agendamentos.length : 1;
+        let email = currentUserData ? currentUserData.email : dataEmail; 
+
+        createScheduling( quantityAgendsUser, dataForm, email);
+    // };
 
     // adiciona novo agendamento à usuário já existente
     for (let i = 0; i < arrayUserData.length; i++) {
-        if ( formData.get("nome") == arrayUserData[i].nome && formData.get("email").toLowerCase() == arrayUserData[i].email ) {
+        
+        if ( dataName == arrayUserData[i].nome && dataEmail.toLowerCase() == arrayUserData[i].email ) {
 
             userFound = true;
             let agend = {};
@@ -126,14 +196,14 @@ formAgend.addEventListener("submit", function(event) {
 
             userAgendData.agendamentos.push( agend );
 
-            localStorage.setItem( arrayUserData[i].nome, JSON.stringify( userAgendData ) );
+            localStorage.setItem( arrayUserData[i].nome, JSON.stringify( userAgendData ) );            
 
         };
     };
 
     // coloca userFound como false para que seja possível criar um novo usuário
     for (let p = 0; p < arrayUserData.length; p++) {
-        if (!formData.get("nome") == arrayUserData[p].nome && formData.get("email").toLowerCase() == arrayUserData[p].email ) {
+        if (!dataName == arrayUserData[p].nome && dataEmail.toLowerCase() == arrayUserData[p].email ) {
             userFound = false;
         };
     };
@@ -141,9 +211,8 @@ formAgend.addEventListener("submit", function(event) {
     // cria novo agendamento de usuário
     if ( userFound == false ) {
         newUserData.id = arrayUserData.length + 1;
-        let nomeForm = formData.get("nome");
-        newUserData.nome = nomeForm;
-        newUserData.email = formData.get("email").toLowerCase();
+        newUserData.nome = dataName;
+        newUserData.email = dataEmail.toLowerCase();
         
         newUserData.agendamentos = [];
         let agendsObj = {};
@@ -161,7 +230,15 @@ formAgend.addEventListener("submit", function(event) {
         newUserData.agendamentos.push(agendsObj);
         arrayUserData.push(newUserData);
 
-        localStorage.setItem(nomeForm, JSON.stringify(newUserData));
+        let registre = localStorage.getItem(dataName);
+        if (registre) {
+            let registreData = JSON.parse(registre);    
+            registreData.agendamentos.push(agendsObj);
+            localStorage.setItem(dataName, JSON.stringify(registreData));
+        } else {
+            localStorage.setItem(dataName, JSON.stringify(newUserData));
+
+        }
 
     };
 
@@ -171,7 +248,7 @@ formAgend.addEventListener("submit", function(event) {
         return;
     };
 
-    if ( formData.get("data") == '' ) {
+    if ( dataForm == '' ) {
         alert("Por favor, selecione uma data para o atendimento.");
         return;
     };
@@ -183,7 +260,7 @@ formAgend.addEventListener("submit", function(event) {
     botoes.forEach(b => b.classList.remove("ativo"));    
 });
 
-// formulário de login
+// formulário do botão de logar
 let formLogin = document.getElementById("formLogin");
 let arrLogin = [];
 
@@ -203,64 +280,25 @@ formLogin.addEventListener("submit", function (event) {
     // checa se os dados no formulário de login batem com os dados obtidos no formulário de agendamento
     for (let i = 0; i < arrayUserData.length; i++) {
         if ( objLogin.nomeLogin == arrayUserData[i].nome &&
-             objLogin.emailLogin == arrayUserData[i].email ) {
-                
-                // refatorar esse código e mudar lógica
+             objLogin.emailLogin.toLowerCase() == arrayUserData[i].email ) {
 
             userFound = true;
+
+            currentUser.nome = objLogin.nomeLogin;
+            currentUser.email = objLogin.emailLogin.toLowerCase();
 
             let parteLogin = document.getElementById("parte2Log");
             let agendamentosDiv = document.getElementsByClassName("showP3")[0];
             let logOutBtt = document.getElementById("logOutBtt");
-            let pAgend = document.getElementsByClassName("pAgend")[0];
     
             logOutBtt.style.display = "initial";
             parteLogin.style.display = "none";
             agendamentosDiv.style.display = "grid";
+
+            let currentUserData = JSON.parse( localStorage.getItem( currentUser.nome ));
             
-            let numberOfAgend = document.createElement("span");
-            let dataOfAgend = document.createElement("span");
-            let hourOfAgend = document.createElement("span");
-            let deleteBtt = document.createElement("button");
+            // for ()
 
-            numberOfAgend.setAttribute("id", "numberAgend");
-            dataOfAgend.setAttribute("id", "dataAgend");
-            hourOfAgend.setAttribute("id", "horaAgend");
-
-            deleteBtt.classList.add("deleteBtt", "showP3");
-            numberOfAgend.classList.add("spanBorder", "borderRS");
-            dataOfAgend.classList.add("spanBorder");
-            hourOfAgend.classList.add("spanSemBorder", "borderRE");
-
-            agendamentosDiv.appendChild(numberOfAgend);
-            agendamentosDiv.appendChild(dataOfAgend);
-            agendamentosDiv.appendChild(hourOfAgend);
-            agendamentosDiv.appendChild(deleteBtt);
-
-            let agendamentosBtt = document.getElementsByClassName("showP3");
-
-            for (let i = 1; i < agendamentosBtt.length; i++) {
-
-                agendamentosBtt[i].style.display = "grid";
-                agendamentosBtt[i].textContent = "Deletar Agendamento";    
-            };
-
-            numberOfAgend.innerHTML = `Agendamento N°: <strong>${arrayUserData[i].numeroAtendimentos}</strong>`;
-            pAgend.innerHTML = `Você possui <strong>${arrayUserData.length}</strong> atendimento${arrayUserData[i].numeroAtendimentos == 1 ? "" : "s"}.`;
-            dataOfAgend.innerHTML = `Data: <strong>${arrayUserData[i].data}</strong>`;
-            hourOfAgend.innerHTML = `Horário: <strong>${arrayUserData[i].hora}</strong>`;
-
-            deleteBtt.addEventListener("click", () => {
-                numberOfAgend.remove();
-                dataOfAgend.remove();
-                hourOfAgend.remove();
-                
-                deleteBtt.remove();
-
-                arrayUserData.length--;
-                pAgend.innerHTML = `Você possui <strong>${arrayUserData.length}</strong> atendimento${arrayUserData.length == 1 ? "" : "s"}.`;
-            });
-            
         } else {
             userFound = false;
         };
@@ -291,4 +329,11 @@ logOutBtt.addEventListener( "click", (event) => {
     
 });
 
-// falta fazer sistema para atualizar a lista de agendamentos vísivel sempre que houver um novo agendamento, refatorar, sistema de remoção de agendamentos, sistema de logout, sistema de admin com algum nível de segurança (opcional), sistema para bloqueio de horário e data já preenchido 
+// falta fazer sistema para atualizar a lista de agendamentos vísivel sempre que houver um novo agendamento
+// refatorar (último)
+// sistema de remoção de agendamentos
+// sistema de logout
+// sistema de admin com algum nível de segurança (opcional)
+//sistema para bloqueio de horário e data já preenchido 
+// chamar createScheduling mesmo sem login
+// ver com relação aos dois arrays pra manipulação dos dados do user, refazer lógica
