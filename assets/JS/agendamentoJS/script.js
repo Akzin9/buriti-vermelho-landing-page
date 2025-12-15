@@ -1,3 +1,5 @@
+window.onload = () => localStorage.clear();
+
 let buttonLog1 = document.getElementById("loginBtt");
 let areaAgendamentos = document.getElementById("agendamentos-area");
 let agendContainer = document.getElementById("agendamentos-container");
@@ -71,7 +73,7 @@ let currentUser = {
 let formAgend = document.getElementById("agendarForm");
 
 // function de crição dos agendamentos na lista de agendamentos
-function createScheduling( quantitySchedulings, dateScheduling, userEmail) {
+function createScheduling( quantitySchedulings, dateScheduling, userEmail, userHora) {
 
     let agendamentosDiv = document.getElementsByClassName("showP3")[0];
     let pAgend = document.getElementsByClassName("pAgend")[0];
@@ -109,15 +111,34 @@ function createScheduling( quantitySchedulings, dateScheduling, userEmail) {
     pAgend.innerHTML = `Você possui <strong>${ quantitySchedulings }</strong> atendimento${ quantitySchedulings == 1 ? "" : "s" }.`;
     numberOfAgend.innerHTML = `Agendamento N°: <strong>${ quantitySchedulings }</strong>`;
     dataOfAgend.innerHTML = `Data: <strong>${ dateScheduling }</strong>`;
-    hourOfAgend.innerHTML = `Horário: <strong>${ horario }</strong>`;    
+    hourOfAgend.innerHTML = `Horário: <strong>${ userHora }</strong>`;    
 
     deleteBtt.addEventListener("click", (event) => {
 
-        console.log(event.target);
-        // desestruturar e criar escopo só pra ele
-    });
+        numberOfAgend.remove();
+        dataOfAgend.remove();
+        hourOfAgend.remove();
+        deleteBtt.remove();
 
-    // adicionar confirmação para botão de delete
+        let idSchedule = Number(event.target.dataset.id);
+        let emailBtt = event.target.dataset.email;
+
+        let userDataRemove = JSON.parse(localStorage.getItem( emailBtt ));
+
+        let index = userDataRemove.agendamentos.findIndex(
+            value => Number(value.numeroAtendimento) == idSchedule);
+
+        if (index !== -1) {
+            userDataRemove.agendamentos.splice(index, 1);
+        } else if (index == 0) {
+            userDataRemove.agendamentos.shift();
+        };
+
+        localStorage.setItem(emailBtt, JSON.stringify( userDataRemove ));
+
+        pAgend.innerHTML = `Você possui <strong>${ userDataRemove.agendamentos.length }</strong> atendimento${ userDataRemove.agendamentos.length == 1 ? "" : "s" }.`;
+           
+    });
 
 };
 
@@ -140,8 +161,8 @@ formAgend.addEventListener("submit", function(event) {
     // sistema para bloquear dias e horários já ocupados
     for ( let i = 0; i < arrayUserData.length; i++ ) {
 
-        let nomeForm = arrayUserData[i].nome; 
-        let userData = JSON.parse( localStorage.getItem( nomeForm ) );
+        let emailForm = arrayUserData[i].email; 
+        let userData = JSON.parse( localStorage.getItem( emailForm) );
 
         let numeroAgendamentos = userData.agendamentos.length;
 
@@ -165,24 +186,25 @@ formAgend.addEventListener("submit", function(event) {
     };
     
     // atualiza lista de agendamentos do usuário logado no momento
-    // if ( currentUser.nome == dataName && currentUser.email == dataEmail ) {
+    if ( currentUser.email == dataEmail ) {
 
         // dados do local storage do respectivo usuário
-        let currentUserData = JSON.parse(localStorage.getItem(currentUser.nome || dataName));
-        let quantityAgendsUser = currentUserData ? currentUserData.agendamentos.length : 1;
-        let email = currentUserData ? currentUserData.email : dataEmail; 
+        let currentUserData = JSON.parse(localStorage.getItem(currentUser.email));
+        let lastArrInd = currentUserData.agendamentos.at(-1); 
+        let quantityAgendsUser = currentUserData.agendamentos.length == 0 ? 1 : lastArrInd.numeroAtendimento + 1 ;
+        let email = currentUserData.email; 
 
-        createScheduling( quantityAgendsUser, dataForm, email);
-    // };
+        createScheduling( quantityAgendsUser, dataForm, email, horario);
+    };
 
     // adiciona novo agendamento à usuário já existente
     for (let i = 0; i < arrayUserData.length; i++) {
         
-        if ( dataName == arrayUserData[i].nome && dataEmail.toLowerCase() == arrayUserData[i].email ) {
+        if ( dataEmail.toLowerCase() == arrayUserData[i].email ) {
 
             userFound = true;
             let agend = {};
-            let userAgendData = JSON.parse( localStorage.getItem( arrayUserData[i].nome ) );
+            let userAgendData = JSON.parse( localStorage.getItem( arrayUserData[i].email ) );
 
             formData.forEach( ( value, prop ) => {
                 agend[prop] = value;
@@ -192,18 +214,19 @@ formAgend.addEventListener("submit", function(event) {
             delete agend.email;
 
             agend.hora = horario;
-            agend.numeroAtendimento = userAgendData.agendamentos.length + 1;
+            let lastIndice = userAgendData.agendamentos.at(-1);
+            agend.numeroAtendimento = userAgendData.agendamentos.length == 0 ? 1 : lastIndice.numeroAtendimento + 1;
 
             userAgendData.agendamentos.push( agend );
 
-            localStorage.setItem( arrayUserData[i].nome, JSON.stringify( userAgendData ) );            
+            localStorage.setItem( arrayUserData[i].email, JSON.stringify( userAgendData ) );            
 
         };
     };
 
     // coloca userFound como false para que seja possível criar um novo usuário
     for (let p = 0; p < arrayUserData.length; p++) {
-        if (!dataName == arrayUserData[p].nome && dataEmail.toLowerCase() == arrayUserData[p].email ) {
+        if ( !dataEmail.toLowerCase() == arrayUserData[p].email ) {
             userFound = false;
         };
     };
@@ -227,19 +250,10 @@ formAgend.addEventListener("submit", function(event) {
         agendsObj.hora = horario;
         agendsObj.numeroAtendimento = 1;
 
-        newUserData.agendamentos.push(agendsObj);
-        arrayUserData.push(newUserData);
+        newUserData.agendamentos.push( agendsObj );
+        arrayUserData.push( newUserData );
 
-        let registre = localStorage.getItem(dataName);
-        if (registre) {
-            let registreData = JSON.parse(registre);    
-            registreData.agendamentos.push(agendsObj);
-            localStorage.setItem(dataName, JSON.stringify(registreData));
-        } else {
-            localStorage.setItem(dataName, JSON.stringify(newUserData));
-
-        }
-
+        localStorage.setItem( dataEmail, JSON.stringify( newUserData ) );
     };
 
     // cancela o envio do formulário caso não possua data ou horário
@@ -279,8 +293,7 @@ formLogin.addEventListener("submit", function (event) {
     
     // checa se os dados no formulário de login batem com os dados obtidos no formulário de agendamento
     for (let i = 0; i < arrayUserData.length; i++) {
-        if ( objLogin.nomeLogin == arrayUserData[i].nome &&
-             objLogin.emailLogin.toLowerCase() == arrayUserData[i].email ) {
+        if ( objLogin.emailLogin.toLowerCase() == arrayUserData[i].email ) {
 
             userFound = true;
 
@@ -295,10 +308,18 @@ formLogin.addEventListener("submit", function (event) {
             parteLogin.style.display = "none";
             agendamentosDiv.style.display = "grid";
 
-            let currentUserData = JSON.parse( localStorage.getItem( currentUser.nome ));
+            let currentUserData = JSON.parse( localStorage.getItem( currentUser.email ));
             
-            // for ()
+            for ( let i = 0; i < currentUserData.agendamentos.length; i++ ) {
 
+                let quantityAgendsUser = i + 1;
+                let email = currentUserData.email; 
+                let datesUser = currentUserData.agendamentos[i].data;
+                let horas = currentUserData.agendamentos[i].hora;
+
+                createScheduling( quantityAgendsUser, datesUser, email, horas);              
+            }
+            return;
         } else {
             userFound = false;
         };
@@ -314,12 +335,24 @@ formLogin.addEventListener("submit", function (event) {
 
 // Botão de deslogar
 let logOutBtt = document.getElementById("logOutBtt");
-        // ainda em construção
+
 logOutBtt.addEventListener( "click", (event) => {
+
     let parteLogin = document.getElementById("parte2Log");
     let agendamentosDiv = document.getElementsByClassName("showP3")[0];
     let pAgend = document.getElementsByClassName("pAgend")[0];
     let divAgend = document.getElementsByClassName("agends")[0];
+
+    let currentUserLogOut = JSON.parse(localStorage.getItem(currentUser.email));
+
+    if (currentUserLogOut.agendamentos.length == 0) {
+        localStorage.removeItem(currentUser.email);
+        let index = arrayUserData.findIndex( value => value.email == currentUser.email );
+        arrayUserData.splice(index, 1);
+    };
+
+    currentUser.nome = "";
+    currentUser.email = "";
 
     pAgend.textContent = "Você precisa estar logado para ver seus agendamentos";
     parteLogin.style.display = "flex";
@@ -329,11 +362,7 @@ logOutBtt.addEventListener( "click", (event) => {
     
 });
 
-// falta fazer sistema para atualizar a lista de agendamentos vísivel sempre que houver um novo agendamento
+// sistema de admin com algum nível de segurança (opcional) = criar array com todos os usuários e mostrar na lista (problema: dar permissão pro admin deletar agendamentos)
+// sistema para bloqueio de horário e data já preenchido 
+// adicionar confirmação para botão de delete
 // refatorar (último)
-// sistema de remoção de agendamentos
-// sistema de logout
-// sistema de admin com algum nível de segurança (opcional)
-//sistema para bloqueio de horário e data já preenchido 
-// chamar createScheduling mesmo sem login
-// ver com relação aos dois arrays pra manipulação dos dados do user, refazer lógica
