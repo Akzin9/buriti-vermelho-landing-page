@@ -109,7 +109,7 @@ inputDate.addEventListener("change", (event) => {
 });
 
 // function de crição dos agendamentos na lista de agendamentos
-function createScheduling( quantitySchedulings, dateScheduling, userEmail, userHora) {
+function createScheduling( quantitySchedulings, dateScheduling, userEmail, userHora, allSchedulings) {
 
     let agendamentosDiv = document.getElementsByClassName("showP3")[0];
     let pAgend = document.getElementsByClassName("pAgend")[0];
@@ -144,7 +144,7 @@ function createScheduling( quantitySchedulings, dateScheduling, userEmail, userH
             
     };    
   
-    pAgend.innerHTML = `Você possui <strong>${ quantitySchedulings }</strong> atendimento${ quantitySchedulings == 1 ? "" : "s" }.`;
+    pAgend.innerHTML = `Você possui <strong>${ allSchedulings }</strong> atendimento${ allSchedulings == 1 ? "" : "s" }.`;
     numberOfAgend.innerHTML = `Agendamento N°: <strong>${ quantitySchedulings }</strong>`;
     dataOfAgend.innerHTML = `Data: <strong>${ dateScheduling }</strong>`;
     hourOfAgend.innerHTML = `Horário: <strong>${ userHora }</strong>`;    
@@ -198,6 +198,17 @@ formAgend.addEventListener("submit", function(event) {
 
     let userFound = false;
 
+    // cancela o envio do formulário caso não possua data ou horário
+    if (horario == null) {
+        alert("Por favor, selecione um horário!");
+        return;
+    };
+
+    if ( dataForm == '' ) {
+        alert("Por favor, selecione uma data para o atendimento.");
+        return;
+    };
+
     // sistema para bloquear dias e horários já ocupados
     for ( let i = 0; i < arrayUserData.length; i++ ) {
 
@@ -233,8 +244,9 @@ formAgend.addEventListener("submit", function(event) {
         let lastArrInd = currentUserData.agendamentos.at(-1); 
         let quantityAgendsUser = currentUserData.agendamentos.length == 0 ? 1 : lastArrInd.numeroAtendimento + 1 ;
         let email = currentUserData.email; 
+        let totalSched = currentUserData.agendamentos.length + 1;
 
-        createScheduling( quantityAgendsUser, dataForm, email, horario);
+        createScheduling( quantityAgendsUser, dataForm, email, horario, totalSched);
     };
 
     // adiciona novo agendamento à usuário já existente
@@ -296,17 +308,6 @@ formAgend.addEventListener("submit", function(event) {
         localStorage.setItem( dataEmail, JSON.stringify( newUserData ) );
     };
 
-    // cancela o envio do formulário caso não possua data ou horário
-    if (horario == null) {
-        alert("Por favor, selecione um horário!");
-        return;
-    };
-
-    if ( dataForm == '' ) {
-        alert("Por favor, selecione uma data para o atendimento.");
-        return;
-    };
-
     // reseta botões ao padrão
     let buttonsHour = document.getElementsByClassName("hourBtt");
 
@@ -363,8 +364,9 @@ formLogin.addEventListener("submit", function (event) {
                 let email = currentUserData.email; 
                 let datesUser = currentUserData.agendamentos[i].data;
                 let horas = currentUserData.agendamentos[i].hora;
+                let agendsTotal = currentUserData.agendamentos.length;
 
-                createScheduling( quantityAgendsUser, datesUser, email, horas);              
+                createScheduling( quantityAgendsUser, datesUser, email, horas, agendsTotal);              
             };
             return;
         } else {
@@ -406,17 +408,3 @@ logOutBtt.addEventListener( "click", (event) => {
     logOutBtt.style.display = "none";
     divAgend.textContent = "";
 });
-
-// refatorar (último)
-// talvez transformar eventListener da linha 79 em function para ser implementada na linha 211 (parte de bloqueio de data e horário)
-/* functions para refatorar(linhas):
-112
-185
-
-formAgend eventListener
-function createScheduling
-inputDate eventListener (talvez transformar em function)
-
-Também refazer os nomes das variáveis e mudar no projeto todo
-ler todo o projeto e comentar
-*/

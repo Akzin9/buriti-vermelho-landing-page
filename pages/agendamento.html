@@ -5,10 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pagina de Agendamento - Buriti Vermelho</title>
-    <link rel="stylesheet" href="../assets/css/agendamentoCSS/agendMobile.css">
+    <!-- <link rel="stylesheet" href="../assets/css/agendamentoCSS/agendMobile.css"> -->
     <link rel="stylesheet" href="../assets/css/agendamentoCSS/agendPc.css">
-    <link rel="stylesheet" href="../assets/css/agendamentoCSS/agendTablet.css">
-    <link rel="stylesheet" href="../assets/css/agendamentoCSS/agendNotebook.css">
+    <!-- <link rel="stylesheet" href="../assets/css/agendamentoCSS/agendTablet.css"> -->
+    <!-- <link rel="stylesheet" href="../assets/css/agendamentoCSS/agendNotebook.css"> -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
 <body>
@@ -26,13 +26,13 @@
                         <div class="formsAreas">
 
                             <strong><label for="name">Cliente</label></strong><br>
-                            <input type="text" id="name" name="nome" value="Davi" class="forms" placeholder="Ex.: Pablo Antonio" required><br><br>
+                            <input type="text" id="name" name="nome" class="forms" placeholder="Ex.: Pablo Antonio" required><br><br>
 
                             <strong><label for="email">E-mail</label></strong><br>
-                            <input type="email" id="email" name="email" value="davi@gmail.com" class="forms" placeholder="Ex.: seuemail@gmail.com" required><br><br>
+                            <input type="email" id="email" name="email" class="forms" placeholder="Ex.: seuemail@gmail.com" required><br><br>
 
                             <strong><label for="tel">Telefone</label></strong><br>
-                            <input type="tel" id="tel" name="tel" class="forms" value="(61) 9 9194-8320" maxlength="16" minlength="11" placeholder="Ex.: (99) 99999-9999" required><br><br>
+                            <input type="tel" id="tel" name="tel" class="forms" maxlength="16" minlength="11" placeholder="Ex.: (99) 99999-9999" required><br><br>
                         </div> 
 
                         <div class="formsAreas">
@@ -96,10 +96,10 @@
                 <form action="" id="formLogin">
                     
                     <label for="nomeLogin" class="labelLogin"><strong>Nome</strong></label><br>
-                    <input type="text" id="nomeLogin" name="nomeLogin" value="Davi" placeholder="Digite seu Nome Completo" required>
+                    <input type="text" id="nomeLogin" name="nomeLogin" placeholder="Digite seu Nome Completo" required>
                     <br>
                     <label for="emailLogin" class="labelLogin"><strong>E-mail</strong></label><br>
-                    <input type="email" id="emailLogin" name="emailLogin" value="davi@gmail.com" placeholder="Ex.: seuemail@gmail.com" required>
+                    <input type="email" id="emailLogin" name="emailLogin" placeholder="Ex.: seuemail@gmail.com" required>
                     <br>
                     <button id="bttLogar" type="submit">Logar</button>
 
