@@ -72,6 +72,42 @@ let currentUser = {
 
 let formAgend = document.getElementById("agendarForm");
 
+// sistema de bloqueio de horário já ocupado
+
+let inputDate = document.getElementById("data");
+
+inputDate.addEventListener("change", (event) => {
+
+    let buttonsHour = document.getElementsByClassName("hourBtt");
+    // habilita todos os botões
+    for (let i = 0; i < buttonsHour.length; i++) {
+        buttonsHour[i].disabled = false;
+    };
+    // looping por todos os usuários
+    for (let i = 0; i < arrayUserData.length; i++) {
+        
+        let users = JSON.parse(localStorage.getItem(arrayUserData[i].email));
+
+        if (!users || !users.agendamentos) continue;
+        // looping por todos os agendamentos do usuário
+        for (let j = 0; j < users.agendamentos.length; j++) {
+
+            let agendamentosUser = users.agendamentos[j];
+            // verifica se a data está sendo usada no agendamento de algum usuário
+            if (inputDate.value == agendamentosUser.data) {
+
+                // pecorre todos os botões e desativa os que a hora estiverem dentro do agendamento do usuário
+                for (let l = 0; l < buttonsHour.length; l++) { 
+
+                    if (buttonsHour[l].textContent === agendamentosUser.hora) {
+                        buttonsHour[l].disabled = true;
+                    };
+                };
+            }
+        };
+    };
+});
+
 // function de crição dos agendamentos na lista de agendamentos
 function createScheduling( quantitySchedulings, dateScheduling, userEmail, userHora) {
 
@@ -115,31 +151,35 @@ function createScheduling( quantitySchedulings, dateScheduling, userEmail, userH
 
     deleteBtt.addEventListener("click", (event) => {
 
-        numberOfAgend.remove();
-        dataOfAgend.remove();
-        hourOfAgend.remove();
-        deleteBtt.remove();
+        if (window.confirm("Tem certeza que deseja deletar?")) {
 
-        let idSchedule = Number(event.target.dataset.id);
-        let emailBtt = event.target.dataset.email;
-
-        let userDataRemove = JSON.parse(localStorage.getItem( emailBtt ));
-
-        let index = userDataRemove.agendamentos.findIndex(
-            value => Number(value.numeroAtendimento) == idSchedule);
-
-        if (index !== -1) {
-            userDataRemove.agendamentos.splice(index, 1);
-        } else if (index == 0) {
-            userDataRemove.agendamentos.shift();
-        };
-
-        localStorage.setItem(emailBtt, JSON.stringify( userDataRemove ));
-
-        pAgend.innerHTML = `Você possui <strong>${ userDataRemove.agendamentos.length }</strong> atendimento${ userDataRemove.agendamentos.length == 1 ? "" : "s" }.`;
-           
-    });
-
+                numberOfAgend.remove();
+                dataOfAgend.remove();
+                hourOfAgend.remove();
+                deleteBtt.remove();
+        
+                let idSchedule = Number(event.target.dataset.id);
+                let emailBtt = event.target.dataset.email;
+        
+                let userDataRemove = JSON.parse(localStorage.getItem( emailBtt ));
+        
+                let index = userDataRemove.agendamentos.findIndex(
+                    value => Number(value.numeroAtendimento) == idSchedule);
+        
+                if (index !== -1) {
+                    userDataRemove.agendamentos.splice(index, 1);
+                } else if (index == 0) {
+                    userDataRemove.agendamentos.shift();
+                };
+        
+                localStorage.setItem(emailBtt, JSON.stringify( userDataRemove ));
+        
+                pAgend.innerHTML = `Você possui <strong>${ userDataRemove.agendamentos.length }</strong> atendimento${ userDataRemove.agendamentos.length == 1 ? "" : "s" }.`;
+               
+            } else {
+                return;
+            };
+        });
 };
 
 formAgend.addEventListener("submit", function(event) {
@@ -266,6 +306,13 @@ formAgend.addEventListener("submit", function(event) {
         alert("Por favor, selecione uma data para o atendimento.");
         return;
     };
+
+    // reseta botões ao padrão
+    let buttonsHour = document.getElementsByClassName("hourBtt");
+
+    for (let i = 0; i< buttonsHour.length; i++) {
+        buttonsHour[i].disabled = false;
+    };
     
     // reseta os dados do formulário
     formAgend.reset();
@@ -318,7 +365,7 @@ formLogin.addEventListener("submit", function (event) {
                 let horas = currentUserData.agendamentos[i].hora;
 
                 createScheduling( quantityAgendsUser, datesUser, email, horas);              
-            }
+            };
             return;
         } else {
             userFound = false;
@@ -330,7 +377,6 @@ formLogin.addEventListener("submit", function (event) {
     };
 
     formLogin.reset();
-
 });
 
 // Botão de deslogar
@@ -359,10 +405,18 @@ logOutBtt.addEventListener( "click", (event) => {
     agendamentosDiv.style.display = "none";
     logOutBtt.style.display = "none";
     divAgend.textContent = "";
-    
 });
 
-// sistema de admin com algum nível de segurança (opcional) = criar array com todos os usuários e mostrar na lista (problema: dar permissão pro admin deletar agendamentos)
-// sistema para bloqueio de horário e data já preenchido 
-// adicionar confirmação para botão de delete
 // refatorar (último)
+// talvez transformar eventListener da linha 79 em function para ser implementada na linha 211 (parte de bloqueio de data e horário)
+/* functions para refatorar(linhas):
+112
+185
+
+formAgend eventListener
+function createScheduling
+inputDate eventListener (talvez transformar em function)
+
+Também refazer os nomes das variáveis e mudar no projeto todo
+ler todo o projeto e comentar
+*/
